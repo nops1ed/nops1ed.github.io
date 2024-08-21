@@ -36,7 +36,7 @@ document.ready(
         var _Blog = window._Blog || {};
         const currentTheme = window.localStorage && window.localStorage.getItem('theme');
 
-        let currentTheme = localStorage.getItem('theme') || 'light'; // 默认主题设置为'light'  
+        //let currentTheme = localStorage.getItem('theme') || 'light'; // 默认主题设置为'light'  
     
         const now = new Date();  
         const hours = now.getHours();  
