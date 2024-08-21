@@ -35,7 +35,17 @@ document.ready(
     () => {
         var _Blog = window._Blog || {};
         const currentTheme = window.localStorage && window.localStorage.getItem('theme');
-        const isDark = currentTheme === 'dark';
+
+        let currentTheme = localStorage.getItem('theme') || 'light'; // 默认主题设置为'light'  
+    
+        const now = new Date();  
+        const hours = now.getHours();  
+    
+        const startNight = 19; // 晚上7点  
+        const endMorning = 7;  // 早上7点  
+    
+        const isDark = (hours >= startNight || hours < endMorning) && currentTheme !== 'forced-light';  
+  
         const pagebody = document.getElementsByTagName('body')[0]
         if (isDark) {
             document.getElementById("switch_default").checked = true;
