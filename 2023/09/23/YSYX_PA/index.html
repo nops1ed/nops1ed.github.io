@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="nops1ed">
+
+
+
+
+
+<title>page | nops1ed&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">nops1ed&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">nops1ed&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">page</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">September 23, 2023&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="前言：从老博客上搬过来的一篇manual，很早之前写的，只找到了PA0与PA1，放在这里纪念一下自己在一生一芯时的历程hhh"><a href="#前言：从老博客上搬过来的一篇manual，很早之前写的，只找到了PA0与PA1，放在这里纪念一下自己在一生一芯时的历程hhh" class="headerlink" title="前言：从老博客上搬过来的一篇manual，很早之前写的，只找到了PA0与PA1，放在这里纪念一下自己在一生一芯时的历程hhh"></a>前言：从老博客上搬过来的一篇manual，很早之前写的，只找到了PA0与PA1，放在这里纪念一下自己在一生一芯时的历程hhh</h1><hr>
+<h1 id="NJU-PA-Manual"><a href="#NJU-PA-Manual" class="headerlink" title="NJU PA Manual"></a>NJU PA Manual</h1><p> <em>GB 2312</em></p>
+<hr>
+<hr>
+<h2 id="NJU-PA0"><a href="#NJU-PA0" class="headerlink" title="NJU PA0"></a>NJU PA0</h2><h3 id="PRE-生存指南"><a href="#PRE-生存指南" class="headerlink" title="PRE. 生存指南"></a>PRE. 生存指南</h3><ul>
+<li>无</li>
+</ul>
+<p>该阶段将完成<code>ics</code>项目的环境配置工作,你需要做的仅是跟随yzh的脚步完成pa0中的内容</p>
+<p>###你也许会遇到： 命令 <code>make menuconfig</code> 报错<br><code>menuconfig</code>将会是我们的有力工具，记得熟悉这位朋友！<br>如果你从未使用过<code>menuconfig</code>,在运行时可能会遇到一些错误，使用<code>apt</code>(or some package management)来安装需要的软件，注意查看报错信息</p>
+<p><strong>PA0 Manual 到此结束</strong></p>
+<hr>
+<hr>
+<h2 id="NJU-PA1"><a href="#NJU-PA1" class="headerlink" title="NJU PA1"></a>NJU PA1</h2><h3 id="Note-谨慎选择库函数"><a href="#Note-谨慎选择库函数" class="headerlink" title="Note: 谨慎选择库函数"></a>Note: 谨慎选择库函数</h3><p>尽量不要使用不安全的库函数:<code>strcpy</code>,<code>scanf</code> …等,它们可能具有<strong>潜在的安全性问题</strong>,例如<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Buffer_overflow">缓冲区溢出(buffer overflow)</a>等,你需要足够重视这个问题</p>
+<h3 id="PRE-在着手PA1之前-一些必要的生存技能"><a href="#PRE-在着手PA1之前-一些必要的生存技能" class="headerlink" title="PRE: 在着手PA1之前,一些必要的生存技能:"></a>PRE: 在着手PA1之前,一些必要的生存技能:</h3><ul>
+<li>RTFM</li>
+<li>RTFSC</li>
+<li>STFW</li>
+<li>对指针,函数指针,<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Branch_table">jump table</a>等拥有基本了解</li>
+<li>正则表达式</li>
+<li>gdb</li>
+<li>了解Makefile的一些基本概念,了解make命令的含义<ul>
+<li>例如该make命令:<code>$make -j12 ARCH=native run mainargs=mario</code></li>
+</ul>
+</li>
+<li>Bash(或其他shell)的一些基本内建命令</li>
+<li>C99标准</li>
+<li>Little endian</li>
+<li>BNF – 巴克斯-诺尔范式</li>
+</ul>
+<h3 id="I-为了正确运行fceux，你的运行环境可能需要配置SDL2-SDL-h"><a href="#I-为了正确运行fceux，你的运行环境可能需要配置SDL2-SDL-h" class="headerlink" title="I. 为了正确运行fceux，你的运行环境可能需要配置SDL2&#x2F;SDL.h"></a>I. 为了正确运行<strong>fceux</strong>，你的运行环境可能需要配置<strong>SDL2&#x2F;SDL.h</strong></h3><p>如果你的环境通过apt来管理包,使用 <code>sudo apt-get install libsdl2-dev</code> 来配置SDL_LIB</p>
+<p><em>Now Try your Game !</em></p>
+<h3 id="II-使用ccache来启用compile-cache进而加速make"><a href="#II-使用ccache来启用compile-cache进而加速make" class="headerlink" title="II. 使用ccache来启用compile cache进而加速make"></a>II. 使用<strong>ccache</strong>来启用compile cache进而加速make</h3><p>多核&#x2F;线程make诚然可节省一些时间,但对于<code>nemu</code>来说这仍然不够,我们需要<code>ccache</code><br>你可以通过<code>man ccache</code>来查看ccache对应的manual<br>配置ccache过程如下：</p>
+<ol>
+<li>通过编辑器修改文件<code>bashrc</code>,其位于<code>~/.bashrc</code>下</li>
+<li>追加<code>export PATH=&quot;/usr/lib/ccache:$PATH&quot;</code>至文件尾</li>
+<li>刷新<code>bashrc</code>,而不是注销用户并重新登陆,使用<code>source</code>指令来实现它:<code>source ~/.bashrc</code></li>
+<li>通过<code>which gcc</code>来检查你的结果是否正确</li>
+</ol>
+<h3 id="III-Which-ISA-to-choose-？"><a href="#III-Which-ISA-to-choose-？" class="headerlink" title="III. Which ISA to choose ？"></a>III. Which ISA to choose ？</h3><ul>
+<li>可以选择<code>x86</code>,CISC指令种类多且复杂</li>
+<li>一周目推荐<code>RISC-V</code>,RISC指令格式简单且固定,实现难度低<ul>
+<li>后记：工程实践要求<code>RISC-V</code>64位版本</li>
+</ul>
+</li>
+<li>谨慎选择<code>MIPS</code><ul>
+<li>二周目推荐</li>
+</ul>
+</li>
+</ul>
+<h3 id="IV-二周目-Reg对计算机的影响"><a href="#IV-二周目-Reg对计算机的影响" class="headerlink" title="IV. (二周目)Reg对计算机的影响"></a>IV. (二周目)Reg对计算机的影响</h3><ul>
+<li>是否可以没有寄存器？<ul>
+<li>是的</li>
+</ul>
+</li>
+<li>对现代编程模型什么影响？<ul>
+<li>参考jyy的os课程</li>
+</ul>
+</li>
+</ul>
+<h3 id="V-Nemu的规模略大，RTFSC应该从哪里开始呢？"><a href="#V-Nemu的规模略大，RTFSC应该从哪里开始呢？" class="headerlink" title="V. Nemu的规模略大，RTFSC应该从哪里开始呢？"></a>V. Nemu的规模略大，RTFSC应该从哪里开始呢？</h3><ul>
+<li>Nemu的初始化从哪里开始执行(考虑xv6 Kernel曾经的初始化工作)?<ul>
+<li>路径<code>./nemu/src/nemu-main.c</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="VI-测试宏的基本工作方式"><a href="#VI-测试宏的基本工作方式" class="headerlink" title="VI. 测试宏的基本工作方式"></a>VI. 测试宏的基本工作方式</h3><ol>
+<li>首先基本的问题是：宏(Macro)是什么？</li>
+</ol>
+<ul>
+<li><p>从高级语言的源代码至可执行文件(例:ELF)经历了如下的流程</p>
+<ul>
+<li>由<code>cpp</code>预处理源文件形成<code>*.i</code>的预处理文件</li>
+<li>由<code>cc</code>(或<code>cc1</code>)完成对预处理文件的编译,并形成<code>*.s</code>的汇编文件</li>
+<li>由<code>as</code>完成对汇编文件<code>*.s</code>的处理,产生二进制的可重定向文件<code>*.o</code></li>
+<li>由<code>ld</code>完成对文件<code>*.o</code>的链接,形成可执行文件,在Unix&#x2F;Unix-like下,其格式为<code>ELF</code>,你可以通过<code>file $FILENAME</code>来查看文件的<code>head</code>内容，其中包含了文件格式</li>
+<li>最终由<code>loader</code>,将可执行文件加载至内存,改变pc指针,修改上下文,发生控制流转移等等一系列流程,进而执行该程序</li>
+</ul>
+</li>
+<li><p>定义宏将在第一阶段由预处理器负责将宏展开</p>
+</li>
+</ul>
+<ol start="2">
+<li>PA中的宏</li>
+</ol>
+<ul>
+<li>涉及到C99标准中的可选参数宏及粘贴运算符<ul>
+<li>可参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42474104/article/details/129105242">@HNU_ZHAO的博客</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="VII-为什么init-monitor中都是函数"><a href="#VII-为什么init-monitor中都是函数" class="headerlink" title="VII. 为什么init_monitor中都是函数?"></a>VII. 为什么<code>init_monitor</code>中都是函数?</h3><ul>
+<li>便于调试，也便于阅读</li>
+<li>实现接口与实现分离,抽象不同ISA差异<ul>
+<li>拿<code>ISA</code>来举例,<code>init_monitor</code>中有函数<code>init_isa</code>,对于不同的ISA来说这个函数的实现方式应该是不同的,还记得yzh写的南大pa manual中曾说过：”改变你选择的ISA不会对主体框架造成任何影响,你不必修改任何代码吗”?这种设计思维在这里体现了出来</li>
+</ul>
+</li>
+</ul>
+<h3 id="VIII-参数从何而来？"><a href="#VIII-参数从何而来？" class="headerlink" title="VIII. 参数从何而来？"></a>VIII. 参数从何而来？</h3><p>于<code>abstract-machine</code>中脚本对应的mk文件</p>
+<h3 id="IX-对于Makefile中错误信息的解决"><a href="#IX-对于Makefile中错误信息的解决" class="headerlink" title="IX. 对于Makefile中错误信息的解决"></a>IX. 对于Makefile中错误信息的解决</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[src/monitor/monitor.c:<span class="number">20</span> welcome] Exercise: Please remove me in the source code and compile NEMU again.</span><br><span class="line">riscv32-nemu-interpreter: src/monitor/monitor.c:<span class="number">21</span>: welcome: Assertion `<span class="number">0&#x27;</span> failed.</span><br></pre></td></tr></table></figure>
+<p>可以看到make贴心地为我们报告了错误的信息<br>定位到该文件的第<code>36</code>行,去除yzh为我们设定的断言错误保存后即可返回</p>
+<h3 id="X-为什么要在cpu-exec-中传入-1"><a href="#X-为什么要在cpu-exec-中传入-1" class="headerlink" title="X. 为什么要在cpu_exec()中传入-1?"></a>X. 为什么要在cpu_exec()中传入-1?</h3><ul>
+<li>由于补码的规则相当于传入<code>uint64_max</code>,使循环次数最大化<ul>
+<li>要知道<code>uint64_max</code>是相当巨大的,我们假定在该循环体内部仅有些许简单语句,即便如此,哪怕是对于今天的个人计算机,执行完这些循环也需要数十年之久,我们并不认为一个合理的算法应该执行如此长的时间,要知道C语言诞生至今也才50年之久</li>
+</ul>
+</li>
+<li>是否UB?<ul>
+<li>STFW:查阅C99文档<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">6.3.1.3 Signed and unsigned integers</span><br><span class="line">  Otherwise, if the new type is unsigned, the value is converted by repeatedly adding or subtracting one more than the maximum value that can be</span><br><span class="line">represented in the new type until the value is in the range of the new type. </span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h3 id="XI-优雅的退出"><a href="#XI-优雅的退出" class="headerlink" title="XI. 优雅的退出"></a>XI. 优雅的退出</h3><p>当在sdb中输入q时nemu退出但会显示以下信息:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make: *** [/home/epic/ics2023/nemu/scripts/native.mk:<span class="number">38</span>: run] Error <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>不难理解的是，程序返回结果出现了错误:</p>
+<ul>
+<li>在C和C++编程语言中，main函数的返回值（通常称为“退出状态”或“返回状态”）表示程序的执行结果。在大多数系统中，返回值为0表示程序成功执行，而非零值表示出现了某种错误。返回值1通常表示程序遇到了一些问题，但具体的问题可能因程序和上下文而异。</li>
+<li>后记：大多数教材对C语言返回值的论述到此戛然而止,但实际上以上论述并不完善，C的返回值是一种具有<code>8 bytes</code>结构体存储空间的“状态”，事实上，你总是可以通过很多方法来捕获他,若想获得更多关于<code>SEGXXX</code>的信息，STFW</li>
+<li>思考一下:为什么main的返回值是<code>int</code>类型?真的是<code>int</code>类型吗?其他类型不可以吗?返回值返回到了哪里?尝试验证你的想法</li>
+</ul>
+<p>追溯到源码：键入<code>q</code>后发生了什么？</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ./src/monitor/sdb/sdb.c</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//some code else</span></span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">int</span> <span class="title function_">cmd_q</span><span class="params">(<span class="type">char</span> *args)</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//some code else</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">sdb_mainloop</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">//some code else</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; NR_CMD; i ++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (<span class="built_in">strcmp</span>(cmd, cmd_table[i].name) == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (cmd_table[i].handler(args) &lt; <span class="number">0</span>) &#123; <span class="keyword">return</span>; &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//some code else</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>显然的是<code>cmd_q</code>——即键入<code>q</code>命令的功能是什么都不做返回-1；然而在<code>sdb_mainloop</code>中，如果某个命令的<code>handler</code>返回值为负数便退出<code>sdb_mainloop</code></p>
+<p>让我们在回到主程序中，以上代码均由函数<code>engine_start()</code>来完成,当<code>sdb_mainloop</code>结束后,<code>engine_start()</code>也将随之退出，此时pc将指向最后一条语句，即返回<code>is_exit_status_bad()</code>的值<br>显然的是，此函数的返回值出现了问题</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ./src/nemu-main.c</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span> &#123;</span><br><span class="line">  <span class="comment">/* Initialize the monitor. */</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> CONFIG_TARGET_AM</span></span><br><span class="line">  am_init_monitor();</span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">  init_monitor(argc, argv);</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Start engine. */</span></span><br><span class="line">  engine_start();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> is_exit_status_bad();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>is_exit_status_bad()</code>函数定位于:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ./src/utils/state.c</span></span><br><span class="line">NEMUState nemu_state = &#123; .state = NEMU_STOP &#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">is_exit_status_bad</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="type">int</span> good = (nemu_state.state == NEMU_END &amp;&amp; nemu_state.halt_ret == <span class="number">0</span>) ||</span><br><span class="line">    (nemu_state.state == NEMU_QUIT);</span><br><span class="line">  <span class="keyword">return</span> !good;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>返回值由good决定，而good的值出现了问题——它由一个”或”表达式来决定自己的值<br>我们希望<code>q</code>代表了退出而不是中断，即置<code>nemu_state.state</code>为<code>NEMU_QUIT</code>：向<code>cmd_q</code>中添加该代码即可完成任务</p>
+<h3 id="XII-SDB的构建"><a href="#XII-SDB的构建" class="headerlink" title="XII. SDB的构建"></a>XII. SDB的构建</h3><p>关于命令<code>si</code> ,<code>info</code> , <code>x</code>见如下代码:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// ./src/monitor/sdb/sdb.c</span></span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">int</span> <span class="title function_">cmd_si</span><span class="params">(<span class="type">char</span> *args)</span></span><br><span class="line">&#123;	</span><br><span class="line">  <span class="comment">//parse args</span></span><br><span class="line">  <span class="type">char</span> *arg = strtok(<span class="literal">NULL</span>,<span class="string">&quot; &quot;</span>);</span><br><span class="line">  <span class="type">int</span> i = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> (!arg)	i = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">else</span> <span class="built_in">sscanf</span>(arg , <span class="string">&quot;%d&quot;</span> , &amp;i);</span><br><span class="line">  cpu_exec(i);	  </span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">int</span> <span class="title function_">cmd_info</span><span class="params">(<span class="type">char</span> *args)</span> &#123;</span><br><span class="line">  <span class="comment">//parse args</span></span><br><span class="line">  <span class="type">char</span> *arg = strtok(<span class="literal">NULL</span> , <span class="string">&quot; &quot;</span>);</span><br><span class="line">  <span class="keyword">if</span> (!<span class="built_in">strcmp</span>(arg , <span class="string">&quot;r&quot;</span>))</span><br><span class="line">		isa_reg_display();</span><br><span class="line"><span class="comment">//  else if </span></span><br><span class="line">  <span class="keyword">else</span> </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;info: Invaild Args\n&quot;</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">int</span> <span class="title function_">cmd_x</span><span class="params">(<span class="type">char</span> *args)</span> &#123;</span><br><span class="line">  <span class="type">char</span> *arg = strtok(<span class="literal">NULL</span> , <span class="string">&quot; &quot;</span>);</span><br><span class="line">  <span class="type">int</span> i = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> (!arg) </span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;x: Too few Arguments\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125; </span><br><span class="line">  <span class="built_in">sscanf</span>(arg , <span class="string">&quot;%d&quot;</span> , &amp;i);</span><br><span class="line">  arg = strtok(<span class="literal">NULL</span> , <span class="string">&quot; &quot;</span>);</span><br><span class="line">  <span class="keyword">if</span> (!arg)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;x: Too few Arguments\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="type">vaddr_t</span> addr = <span class="number">0</span>;</span><br><span class="line">  <span class="built_in">sscanf</span>(arg, <span class="string">&quot;%x&quot;</span> , &amp;addr);</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span> ; j &lt; i ; j++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;0x%x: &quot;</span> , addr + <span class="number">4</span> * j);</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> k = <span class="number">3</span> ; k &gt;= <span class="number">0</span> ; k++)</span><br><span class="line">			<span class="comment">//Little endian</span></span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;%02x &quot;</span> , vaddr_read(addr + <span class="number">4</span> * j + k, <span class="number">1</span>));		</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">  <span class="type">const</span> <span class="type">char</span> *name;</span><br><span class="line">  <span class="type">const</span> <span class="type">char</span> *description;</span><br><span class="line">  <span class="type">int</span> (*handler) (<span class="type">char</span> *);</span><br><span class="line">&#125; cmd_table [] = &#123;</span><br><span class="line">  &#123; <span class="string">&quot;help&quot;</span>, <span class="string">&quot;Display information about all supported commands&quot;</span>, cmd_help &#125;,</span><br><span class="line">  &#123; <span class="string">&quot;c&quot;</span>, <span class="string">&quot;Continue the execution of the program&quot;</span>, cmd_c &#125;,</span><br><span class="line">  &#123; <span class="string">&quot;q&quot;</span>, <span class="string">&quot;Exit NEMU&quot;</span>, cmd_q &#125;,</span><br><span class="line">  &#123; <span class="string">&quot;si&quot;</span> , <span class="string">&quot;Execute by single step&quot;</span> , cmd_si &#125;,</span><br><span class="line">  &#123; <span class="string">&quot;info&quot;</span> , <span class="string">&quot;Show info&quot;</span> , cmd_info &#125;,</span><br><span class="line">  &#123; <span class="string">&quot;x&quot;</span> , <span class="string">&quot;Scan Memory&quot;</span> , cmd_x &#125;,</span><br><span class="line">  <span class="comment">/* <span class="doctag">TODO:</span> Add more commands */</span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="XIII-Sanitizer-检测-use-after-free"><a href="#XIII-Sanitizer-检测-use-after-free" class="headerlink" title="XIII. Sanitizer 检测 use after free"></a>XIII. Sanitizer 检测 use after free</h3><p>sanitizer会标记malloc内存块，同样的，free内存块也会受到相应的标记，每次访问内存，sanitizer都会检测内存访问合法性，当检测到用户企图访问use after free的内存块后会终止程序并提出警告</p>
+<h3 id="Fin-代码部分见文件，后续将不会在manual中粘贴代码"><a href="#Fin-代码部分见文件，后续将不会在manual中粘贴代码" class="headerlink" title="Fin. 代码部分见文件，后续将不会在manual中粘贴代码"></a>Fin. 代码部分见文件，后续将不会在manual中粘贴代码</h3><p><strong>PA1 Manual到此结束</strong></p>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/ics-C-C-Architecture/"># ics, C, C++, Architecture</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2024/08/21/RAG%20Optimization/">RAG Optimization</a>
+            
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="slogan">
+        <span>Blessed is the man who does not walk in the counsel of the wicked or stand in the way of sinners or sit in the seat of mockers.<a href="" target="_blank"></a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
