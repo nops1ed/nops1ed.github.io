@@ -41,7 +41,7 @@ document.ready(
         const now = new Date();  
         const hours = now.getHours();  
     
-        const startNight = 19; // 晚上7点  
+        const startNight = 17; // 晚上7点  
         const endMorning = 7;  // 早上7点  
     
         const isDark = (hours >= startNight || hours < endMorning) && currentTheme !== 'forced-light';  
