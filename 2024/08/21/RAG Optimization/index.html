@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="nops1ed">
+
+
+
+
+
+<title>RAG Optimization | nops1ed&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">nops1ed&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">nops1ed&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">RAG Optimization</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">August 21, 2024&nbsp;&nbsp;20:36:57</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/RAG/">RAG</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>toc: true</p>
+<h1 id="RAG"><a href="#RAG" class="headerlink" title="RAG"></a>RAG</h1><p>Writing a blog post to record experiences and optimization ideas for RAG (Retrieve-and-Generate architecture) that is currently being used in the team, which is an early preview. Let’s start by discussing why they chose to use RAG.</p>
+<h2 id="Why-RAG-？"><a href="#Why-RAG-？" class="headerlink" title="Why RAG ？"></a>Why RAG ？</h2><p>If without RAG, LLM is only knowledge source  </p>
+<table>
+<thead>
+<tr>
+<th>Without RAG</th>
+<th>With RAG</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Hallucination</td>
+<td>Source data reference</td>
+</tr>
+<tr>
+<td>Outdated info</td>
+<td>Latest info</td>
+</tr>
+<tr>
+<td>Knowledge blind spot</td>
+<td>Covers all search engine information</td>
+</tr>
+<tr>
+<td>Doesn’t cover my data</td>
+<td>Covers my &#x2F; public data</td>
+</tr>
+</tbody></table>
+<h2 id="RAG-1"><a href="#RAG-1" class="headerlink" title="RAG"></a>RAG</h2><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2312.10997">classification</a></p>
+<h2 id="Using-Naive-RAG"><a href="#Using-Naive-RAG" class="headerlink" title="Using Naive RAG"></a>Using Naive RAG</h2><p>Retrieve-then-read Architecture</p>
+<p>The most classic RAG structure steps are as follows: Establish index –&gt; Retrieve –&gt; LLM Combining Generate Information to Answer Questions</p>
+<ul>
+<li>Establish Index<ul>
+<li>Generally, this step is performed offline. The document data is cleaned and divided into chunks, and an embedding model is used to generate vectors to create an index (which is then stored in a database)</li>
+</ul>
+</li>
+<li>Retrieve<ul>
+<li>After the KB is established, when the user submits a query, use the previous embedding model to generate a vector and perform similarity matching with the KB. Select the top k similar results as the enhancement information for the current question.</li>
+</ul>
+</li>
+<li>Combine LLM<ul>
+<li>Based on the above information, generate a prompt and combine it with the LLM to answer the user’s query.</li>
+</ul>
+</li>
+</ul>
+<p>However, such a simple structure never quite meets expectations and is prone to “garbage in, garbage out.” What’s wrong?</p>
+<ul>
+<li>Unable to efficiently match with KB. Possible reasons:<ul>
+<li>Inefficient queries: whether intentional or unintentional, users may submit queries containing a lot of irrelevant information or fail to highlight their core concerns, causing the topic to deviate.</li>
+<li>When establishing the index, unable to retrieve core knowledge</li>
+</ul>
+</li>
+<li>LLM’s well-known problems:<ul>
+<li>Unable to retrieve relevant knowledge or low-quality knowledge leads to hallucinations - self-generated text that is meaningless in RAG.</li>
+<li>LLM can only reproduce KB information and cannot add more insightful or comprehensive information.</li>
+</ul>
+</li>
+</ul>
+<h2 id="Build-Advanced-RAG"><a href="#Build-Advanced-RAG" class="headerlink" title="Build Advanced RAG"></a>Build Advanced RAG</h2><p>针对上述的问题，业界做了不少优化，总结来说分为三个部分：预处理,检索中以及检索的优化策略</p>
+<h3 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h3><ul>
+<li>优化文档切割    (Done)<ul>
+<li>机械式地递归切割文档会建立糟糕的向量数据库，主要原因在于无法理解每个chunk之间的信息关联，导致分割的chunk所含</li>
+</ul>
+</li>
+<li>More…</li>
+</ul>
+<h3 id="Before-Retrieval"><a href="#Before-Retrieval" class="headerlink" title="Before Retrieval"></a>Before Retrieval</h3><ul>
+<li><p><strong>Optimizing Query</strong><br>  The problem is, the chunk of information where the answer lies, might not be similar to what the user is asking. The question can be badly written, or expressed differently to what we expect. And, if our RAG app can’t find the information needed to answer the question, it won’t answer correctly.<br>  We use a Generative AI model to rewrite the question. This model be a large model, like (or the same as) the one we use to answer the question in the final step. Or it can also be a smaller model, specially trained to perform this task.</p>
+<ul>
+<li><p><strong>Trainable Rewriter</strong>:</p>
+<ul>
+<li>We can fine-tune a pre-trained model to perform the query rewriting task. Instead of relying on examples, we can teach it how query rewriting should be done to achieve the best results in context retrieving. Also, we can further train it using Reinforcement Learning so it can learn to recognize problematic queries and avoid toxic and harmful phrases. Or we can also use an open-source model that has already been trained by somebody else on the task of query rewriting.</li>
+</ul>
+</li>
+<li><p><strong>Splitting Queries</strong>: If a question contains multiple independent sub-questions, split it and execute each one independently.</p>
+<ul>
+<li>IR_CoT (Information Retrieval for Contextual Text)</li>
+<li>Least-to-Most: process least relevant information first</li>
+</ul>
+</li>
+<li><p><strong>Enhancing Queries</strong>: If the retrieval method is sensitive to query content, generate multiple versions of the query to retrieve more relevant content.</p>
+<ul>
+<li>HyDE (Hybrid Document and Embedding-based Retrieve)</li>
+<li>Step-back prompting</li>
+</ul>
+</li>
+<li><p><strong>Rewriting Queries</strong>:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2303.07678">Query2doc: Query Expansion with Large Language Models</a>: uses LLMs to expand queries</li>
+<li>RAG-Fusion: combines multiple queries or documents to form a new query</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/RAG/"># RAG</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="slogan">
+        <span>Blessed is the man who does not walk in the counsel of the wicked or stand in the way of sinners or sit in the seat of mockers.<a href="" target="_blank"></a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
