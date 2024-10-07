@@ -208,8 +208,10 @@
         </header>
 
         <div class="post-content">
-            <h1 id="RAG"><a href="#RAG" class="headerlink" title="RAG"></a>RAG</h1><p>Writing a blog post to record experiences and optimization ideas for RAG (Retrieve-and-Generate architecture) that is currently being used in the team, which is an early preview. Let’s start by discussing why they chose to use RAG.</p>
-<h2 id="Why-RAG-？"><a href="#Why-RAG-？" class="headerlink" title="Why RAG ？"></a>Why RAG ？</h2><p>If without RAG, LLM is only knowledge source  </p>
+            <h1 id="RAG-last-update-on-Oct-7"><a href="#RAG-last-update-on-Oct-7" class="headerlink" title="RAG (last update on Oct.7)"></a>RAG (last update on Oct.7)</h1><p>Writing a blog post to record experiences and optimization ideas for RAG (Retrieve-and-Generate architecture) that is currently being used in the team, which is an early preview. Let’s start by discussing why we chose to use RAG.</p>
+<h2 id="Why-RAG-？"><a href="#Why-RAG-？" class="headerlink" title="Why RAG ？"></a>Why RAG ？</h2><p>After the popularity of large models, some companies found that their existing large models could not answer some company-specific content. As a result, they created knowledge bases tailored to large models, using internal corporate background knowledge to enhance the ability of large models to provide personalized answers. </p>
+<p>However, this raises issues of information leakage. As a result, most companies opt for private deployment models to solve this problem, which is what we call enterprise knowledge graphs with private deployment.</p>
+<p>If without RAG, LLM is only knowledge source  </p>
 <table>
 <thead>
 <tr>
@@ -234,8 +236,8 @@
 <td>Covers my &#x2F; public data</td>
 </tr>
 </tbody></table>
-<h2 id="RAG-1"><a href="#RAG-1" class="headerlink" title="RAG"></a>RAG</h2><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2312.10997">classification</a></p>
-<h2 id="Using-Naive-RAG"><a href="#Using-Naive-RAG" class="headerlink" title="Using Naive RAG"></a>Using Naive RAG</h2><p>Retrieve-then-read Architecture</p>
+<h2 id="RAG-Paradigm"><a href="#RAG-Paradigm" class="headerlink" title="RAG Paradigm"></a>RAG Paradigm</h2><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2312.10997">Retrieval-Augmented Generation for Large Language Models: A Survey (click me to view the paper)</a></p>
+<h2 id="Using-Naive-RAG"><a href="#Using-Naive-RAG" class="headerlink" title="Using Naive RAG"></a>Using Naive RAG</h2><p>AKA Retrieve-then-read Architecture</p>
 <p>The most classic RAG structure steps are as follows: Establish index –&gt; Retrieve –&gt; LLM Combining Generate Information to Answer Questions</p>
 <ul>
 <li>Establish Index<ul>
@@ -243,7 +245,7 @@
 </ul>
 </li>
 <li>Retrieve<ul>
-<li>After the KB is established, when the user submits a query, use the previous embedding model to generate a vector and perform similarity matching with the KB. Select the top k similar results as the enhancement information for the current question.</li>
+<li>Once the KB is established, user could submit a query, we will use the previous embedding model to generate a vector and perform similarity matching with the KB. Select the top k similar results as the enhancement information for the current question.</li>
 </ul>
 </li>
 <li>Combine LLM<ul>
@@ -251,7 +253,10 @@
 </ul>
 </li>
 </ul>
-<p>However, such a simple structure never quite meets expectations and is prone to “garbage in, garbage out.” What’s wrong?</p>
+<p>See more details are as follows:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Local Documents   ---&gt; Unstructed Loader    --&gt; Text ---&gt; Text Splitter ---&gt; Text Chunks</span><br><span class="line">                                                                                |</span><br><span class="line">                                                                                |</span><br><span class="line">                                                                                v</span><br><span class="line">                                                                            Embedding</span><br><span class="line">                                                                                |</span><br><span class="line">                                                                                |</span><br><span class="line">                                                                                v</span><br><span class="line">Query      ---&gt;     Embedding ---&gt;  Query Vector ---&gt;  Vector Similarity &lt;--- VectorStore</span><br><span class="line">                                                                |</span><br><span class="line">                                                                |</span><br><span class="line">                                                                v</span><br><span class="line">                        Prompt  &lt;---  Prompt Template  &lt;--- Related Text chunks</span><br><span class="line">                          |          </span><br><span class="line">                          |</span><br><span class="line">                          v</span><br><span class="line">            Answer &lt;---  LLM</span><br><span class="line"></span><br><span class="line">                                                                                        <span class="comment">// Naive RAG</span></span><br></pre></td></tr></table></figure>
+
+<p>However, such a structure never quite meets expectations and is prone to “garbage in, garbage out.” What’s wrong?</p>
 <ul>
 <li>Unable to efficiently match with KB. Possible reasons:<ul>
 <li>Inefficient queries: whether intentional or unintentional, users may submit queries containing a lot of irrelevant information or fail to highlight their core concerns, causing the topic to deviate.</li>
@@ -264,43 +269,70 @@
 </ul>
 </li>
 </ul>
-<h2 id="Build-Advanced-RAG"><a href="#Build-Advanced-RAG" class="headerlink" title="Build Advanced RAG"></a>Build Advanced RAG</h2><p>针对上述的问题，业界做了不少优化，总结来说分为三个部分：预处理,检索中以及检索的优化策略</p>
-<h3 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h3><ul>
-<li>优化文档切割    (Done)<ul>
-<li>机械式地递归切割文档会建立糟糕的向量数据库，主要原因在于无法理解每个chunk之间的信息关联，导致分割的chunk所含</li>
+<h2 id="Build-Advanced-RAG"><a href="#Build-Advanced-RAG" class="headerlink" title="Build Advanced RAG"></a>Build Advanced RAG</h2><h3 id="Preprocessing"><a href="#Preprocessing" class="headerlink" title="Preprocessing"></a>Preprocessing</h3><ul>
+<li><p><strong>Parser Augmentation</strong><br>  The success of RAG implementation hinges on whether the document interpretation meets expectations. Only by thoroughly extracting and interpreting the information within documents can a high-performance knowledge base be built to support LLMs. The first step, and arguably the most crucial one, is to optimize the document parsing process.</p>
+<p>  Let’s take a typical PDF file as an example and compare the strengths and weaknesses of several mainstream PDF parsing effects:</p>
+<ul>
+<li><p><strong>Direct Text Extraction</strong>: PyMUPDF, PyPDF, PDFMiner, etc.</p>
+<ul>
+<li>As a common Python PDF loader, these tools have the advantage of being relatively mature, low latency, and suitable for fast text extraction from PDF or documents.</li>
+<li>However, they are not effective in handling complex document structures, such as tables, images, and layouts, which may not meet our expectations for RAG document parsing effects.</li>
 </ul>
 </li>
-<li>More…</li>
+<li><p><strong>OCR Conversion and Text Extraction</strong>: Tesseract, Textract, etc.</p>
+<ul>
+<li>These tools are relatively mature and can capture document structure and layout.</li>
+<li>However, they have high latency, and the performance varies depending on specific use cases.</li>
+</ul>
+</li>
+<li><p><strong>Intelligent Document Parsing</strong>: LlamaParse, Unstructured.io, AzureDoc Intelligence, etc.</p>
+<ul>
+<li>These tools can parse complex document structures and convert them into Markdown format (or JSON, etc.).</li>
+<li>However, they are relatively immature, have limited scalability, and high latency.</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <h3 id="Before-Retrieval"><a href="#Before-Retrieval" class="headerlink" title="Before Retrieval"></a>Before Retrieval</h3><ul>
-<li><p><strong>Optimizing Query</strong><br>  The problem is, the chunk of information where the answer lies, might not be similar to what the user is asking. The question can be badly written, or expressed differently to what we expect. And, if our RAG app can’t find the information needed to answer the question, it won’t answer correctly.<br>  We use a Generative AI model to rewrite the question. This model be a large model, like (or the same as) the one we use to answer the question in the final step. Or it can also be a smaller model, specially trained to perform this task.</p>
+<li><p><strong>Query Translation</strong><br>  The problem is, the chunk of information where the answer lies, might not be similar to what the user is asking. The question can be badly written, or expressed differently to what we expect. And, if our RAG app can’t find the information needed to answer the question, it won’t answer correctly. </p>
+<p>  In fact, semantic search from embedding is hard to get right. Embedding long documents is a challenge. User queries are a challenge, if a user provides an ambiguous query they’ll get ambiguous matches.<br>  LLMs just follow what in the context and hallucinate answers as a result.</p>
 <ul>
-<li><p><strong>Trainable Rewriter</strong>:</p>
-<ul>
-<li>We can fine-tune a pre-trained model to perform the query rewriting task. Instead of relying on examples, we can teach it how query rewriting should be done to achieve the best results in context retrieving. Also, we can further train it using Reinforcement Learning so it can learn to recognize problematic queries and avoid toxic and harmful phrases. Or we can also use an open-source model that has already been trained by somebody else on the task of query rewriting.</li>
-</ul>
-</li>
-<li><p><strong>Splitting Queries</strong>: If a question contains multiple independent sub-questions, split it and execute each one independently.</p>
+<li><p><strong>Decomposition</strong>: If a question contains multiple independent sub-questions, split it and execute each one independently.</p>
 <ul>
 <li>IR_CoT (Information Retrieval for Contextual Text)</li>
-<li>Least-to-Most: process least relevant information first</li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2205.10625.pdf">Least-to-Most (click me to view the paper)</a>: process least relevant information first</li>
 </ul>
 </li>
 <li><p><strong>Enhancing Queries</strong>: If the retrieval method is sensitive to query content, generate multiple versions of the query to retrieve more relevant content.</p>
 <ul>
 <li>HyDE (Hybrid Document and Embedding-based Retrieve)</li>
-<li>Step-back prompting</li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2310.06117.pdf">Step-back prompting (click me to view the paper)</a><ul>
+<li>Few shot prompt to produce more abstract step_back question</li>
 </ul>
 </li>
-<li><p><strong>Rewriting Queries</strong>:</p>
+</ul>
+</li>
+</ul>
+<p>  We can also use a Generative AI model to rewrite the question. This model could be a large model, like (or the same as) the one we use to answer the question in the final step. Or it can also be a smaller model, specially trained to perform this task.</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2303.07678">Query2doc: Query Expansion with Large Language Models</a>: uses LLMs to expand queries</li>
+<li><p><strong>Rewrite Queries</strong>:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2303.07678">Query2doc: Query Expansion with Large Language Models (click me to view the paper)</a>: uses LLMs to expand queries</li>
 <li>RAG-Fusion: combines multiple queries or documents to form a new query</li>
 </ul>
 </li>
+<li><p><strong>Trainable Rewriter</strong>:</p>
+<ul>
+<li>We can fine-tune a pre-trained model to perform the query rewriting task. Instead of relying on examples, we can teach it how query rewriting should be done to achieve the best results in context retrieving. Also, we can further train it using Reinforcement Learning so it can learn to recognize problematic queries and avoid toxic and harmful phrases. Or we can also use an open-source model that has already been trained by somebody else on the task of query rewriting.</li>
 </ul>
 </li>
 </ul>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">More abstraction    ^           Step-back <span class="title function_">question</span> <span class="params">(Step-back prompting)</span></span><br><span class="line">                    |                      ^</span><br><span class="line">                    |                      |</span><br><span class="line">                    |                      |</span><br><span class="line">                    |                  Question    -----&gt;  Re-<span class="title function_">written</span> <span class="params">(RAG-Fusion, Multi-Query)</span></span><br><span class="line">                    |                      |</span><br><span class="line">                    |                      |</span><br><span class="line">                    |                      |</span><br><span class="line">                    |                      v</span><br><span class="line">Less abstraction    v              Sub-<span class="title function_">question</span> <span class="params">(Least-to-Most)</span></span><br></pre></td></tr></table></figure>
+
+
 
         </div>
 
