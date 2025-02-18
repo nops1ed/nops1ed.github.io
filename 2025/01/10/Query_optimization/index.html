@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="nops1ed">
+
+
+
+
+
+<title>query optimization | nops1ed&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">nops1ed&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">nops1ed&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">query optimization</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="QO-Query-Optimization"><a href="#QO-Query-Optimization" class="headerlink" title="QO(Query Optimization)"></a>QO(Query Optimization)</h1><blockquote>
+<p>use jyyslide-md to get better view</p>
+</blockquote>
+<hr>
+<h1 id="What-is-QO"><a href="#What-is-QO" class="headerlink" title="What is QO?"></a>What is QO?</h1><hr>
+<h2 id="What-is-QO-1"><a href="#What-is-QO-1" class="headerlink" title="What is QO?"></a>What is QO?</h2><blockquote>
+<p>The problem is, the chunk of information where the answer lies, might not be similar to what the user is asking. </p>
+<p>The question can be badly written, or expressed differently to what we expect.</p>
+</blockquote>
+<ul>
+<li>我们需要做的就是优化Query,使得LLM更了解其想表达的具体含义</li>
+</ul>
+<hr>
+<h1 id="Why-QO"><a href="#Why-QO" class="headerlink" title="Why QO ?"></a>Why QO ?</h1><hr>
+<h2 id="Why-QO-1"><a href="#Why-QO-1" class="headerlink" title="Why QO ?"></a>Why QO ?</h2><ul>
+<li><strong>提升检索阶段的效果</strong> ：QO在RAG中起着关键作用，直接影响检索阶段的效果，从而提高最终响应的质量。通过优化用户的原始查询，QO可以确保检索到的相关信息更加准确和全面。</li>
+<li><strong>解决复杂查询</strong> ：LLMs在处理复杂或多方面的查询时可能会遇到挑战。QO通过改进查询，使得模型能够更好地理解用户意图和查询上下文，从而提高问题解决的性能。</li>
+<li><strong>减少错误信息</strong> ：LLMs在处理超出其训练数据或需要最新信息的查询时，可能会产生“幻觉”或不准确的响应。RAG通过动态检索相关信息来增强LLMs，而QO则进一步优化查询，减少生成内容中的错误信息。</li>
+<li><strong>改进用户体验</strong> ：成功的查询优化显著提升问题解决性能，改善模型生成输出的质量，从而提升整体用户体验和LLMs在各种应用中的实用性。</li>
+</ul>
+<hr>
+<h1 id="How"><a href="#How" class="headerlink" title="How ?"></a>How ?</h1><hr>
+<h2 id="查询扩展（Query-Expansion）"><a href="#查询扩展（Query-Expansion）" class="headerlink" title="查询扩展（Query Expansion）"></a>查询扩展（Query Expansion）</h2><ul>
+<li>通过分析初始查询，识别关键概念，并加入相关术语、同义词或关联想法来形成新的查询，以进行更全面的搜索</li>
+<li><strong>内部扩展</strong> ：利用LLMs预训练阶段中已经嵌入的知识，不依赖外部知识源。<ul>
+<li>HYDE（Gao et al., 2023a）</li>
+<li>QUERY2DOC（Wang et al., 2023b）</li>
+<li>REFEED（Yu et al., 2023b）</li>
+<li>etc</li>
+</ul>
+</li>
+<li><strong>外部扩展</strong> ：引入外部数据（如网络或知识库）来填补信息空白，提供额外上下文或扩展内容。<ul>
+<li>GuideCQR（Park and Lee, 2024）</li>
+<li>MUGI（Zhang et al., 2024b）</li>
+<li>etc</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="内部查询"><a href="#内部查询" class="headerlink" title="内部查询"></a>内部查询</h2><h3 id="HyDE"><a href="#HyDE" class="headerlink" title="HyDE"></a>HyDE</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2212.10496.pdf">HyDE（Hypothetical Document Embeddings）</a></p>
+</blockquote>
+<p>HyDE（Hypothetical Document Embeddings）是一种改进检索的方法，它生成可用于回答用户输入问题的<strong>假设文档</strong>。</p>
+<p>这些文档来自LLM自身学习到的知识，向量化后用于从索引中检索文档。HyDE方法认为原始问题一般都比较短，而生成的假设文档可能会更好地与索引文档对齐。</p>
+<hr>
+<h2 id="HyDE特点"><a href="#HyDE特点" class="headerlink" title="HyDE特点"></a>HyDE特点</h2><ul>
+<li>HyDE 如何改进 RAG pipeline：<ul>
+<li><strong>生成假设文档</strong>：HyDE 的创新在于基于查询生成一个假设文档，并基于此文档进行检索。因此，HyDE 不直接依赖于从语料库中检索到的文档，而是使用生成的文档来捕捉相关性的本质。</li>
+<li><strong>回答难题</strong>：在遇到模糊或上下文不明确的问题时，得出精确答案可能会很棘手。HyDE 通过利用 LLM 丰富查询的上下文来改进这一点。</li>
+<li><strong>优化文档查询</strong>：由于大多数数据库包含的是答案而不是问题，因此使用假设答案作为文档查询是合理的。</li>
+</ul>
+</li>
+</ul>
+<hr>
+
+<hr>
+<h2 id="HyDE的优势"><a href="#HyDE的优势" class="headerlink" title="HyDE的优势"></a>HyDE的优势</h2><ul>
+<li>HyDE 在性能、鲁棒性和多功能性方面有所改进：<ul>
+<li><green>性能提升</green>：HyDE 在各种数据集和指标（如 nDCG@10、召回率）上始终优于经典的 BM25 和无监督的 Contriever。</li>
+<li>鲁棒性：即使在丰富监督任务（如 TREC DL19&#x2F;20）上，HyDE 也能与微调模型竞争。</li>
+<li>多功能性：它在网页搜索和低资源任务中表现出色，相对于基线模型提供了显著的提升。</li>
+<li>多语言能力：在多种语言中表现出色，优于 mContriever，例如在韩语和日语中。</li>
+<li>效率：HyDE 提高了检索质量，而无需大量微调，使其成为多样化检索任务的有效且高效的选择。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="HyDE-的挑战和局限性"><a href="#HyDE-的挑战和局限性" class="headerlink" title="HyDE 的挑战和局限性"></a>HyDE 的挑战和局限性</h2><ul>
+<li><strong>知识瓶颈</strong>：HyDE 生成的文档可能包含<red>“幻觉”</red>产物，这可能会影响检索结果的准确性。例如，如果llm并未学习过相关的知识，这种方法可能无效，并且会更频繁地生成错误信息。</li>
+<li><strong>多语言挑战</strong>：多语言检索对 HyDE 提出了额外的挑战。随着语言数量的增加，小型对比编码器会饱和。同时，生成型 LLM 面临相反的问题：对于不像英语或法语那样高资源的语言，高容量的 LLM 可能会训练不足。</li>
+</ul>
+<hr>
+<h2 id="Query2Doc"><a href="#Query2Doc" class="headerlink" title="Query2Doc"></a>Query2Doc</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2303.07678">Query2Doc(click it)</a></p>
+</blockquote>
+<ul>
+<li><strong>what is this?</strong> <ul>
+<li>首先通过少量样本提示大型语言模型（LLMs）生成伪文档，然后使用生成的伪文档扩展查询。<blockquote>
+<p>简单来说：先把 user query 带上 prompt 问一下 LLM，让 LLM 先生成一个关于这个问题的回复，这里称这个回复为伪文档，然后把伪文档和 user query 拼接在一起，实现了 Query Expansion，将扩展后的 query 再送给 Retriever 实现检索。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="Query2Doc-1"><a href="#Query2Doc-1" class="headerlink" title="Query2Doc"></a>Query2Doc</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">user query  -------------------&gt;  user query </span><br><span class="line">	|				concat		 LLM response ------&gt; retrieval</span><br><span class="line">	| with prompt					 ^</span><br><span class="line">	v								 |</span><br><span class="line">   LLM								 |</span><br><span class="line">	|								 |</span><br><span class="line">	|								 |</span><br><span class="line">	v								 |</span><br><span class="line">LLM response -------------------------</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Query2Doc-2"><a href="#Query2Doc-2" class="headerlink" title="Query2Doc"></a>Query2Doc</h2><ul>
+<li><p><strong>Performance</strong>: query2doc 在诸如MS-MARCO和TREC DL等即席信息检索（ad-hoc IR）数据集上将BM25的性能提升了3%到15%，且无需任何模型微调</p>
+</li>
+<li><p>模型大小的提升对最终的召回效果是有收益的，随着模型变大，生成的文本对预测效果有提升。</p>
+</li>
+<li><p>该方案本身对向量表征模型的训练，也是有明显收益的。</p>
+</li>
+<li><p>原始query和大模型生成的回复之间，是互补关系，两者组合才能真正达到提升。</p>
+</li>
+</ul>
+<hr>
+<h2 id="More-GenRead"><a href="#More-GenRead" class="headerlink" title="More: GenRead"></a>More: GenRead</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2209.10063">GenRead(generate-then-read)</a></p>
+</blockquote>
+<ul>
+<li>由 LLM 生成的文档中，往往比 retrieved documents 更可能包含正确的答案。于是，该工作尝试走一条与 retrieve-then-read pipeline 不同的思路：generate-then-read pipeline（GenRead）</li>
+</ul>
+<hr>
+<h2 id="问题分解"><a href="#问题分解" class="headerlink" title="问题分解"></a>问题分解</h2><ul>
+<li>将复杂的多跳查询分解为更简单、可管理的子查询或任务，分别搜索相关信息后再综合响应。<ul>
+<li>Demonstrate Search Predict（DSP）框架（Khattab et al., 2022）</li>
+<li>LEAST-TO-MOST（Zhou et al., 2023）</li>
+<li>PLAN-AND-SOLVE（Wang et al., 2023a）</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="LEAST-2-MOST"><a href="#LEAST-2-MOST" class="headerlink" title="LEAST 2 MOST"></a>LEAST 2 MOST</h2><h3 id="LEAST-2-MOST-1"><a href="#LEAST-2-MOST-1" class="headerlink" title="LEAST 2 MOST"></a>LEAST 2 MOST</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2205.10625.pdf">LEAST TO MOST</a></p>
+</blockquote>
+<p>它采用了一种全新的提示策略，旨在解决链式思维提示在处理比提示中的示例更难的问题时表现不佳的问题。</p>
+<p>Least-to-most prompting 的核心思想是将一个复杂的问题分解成一系列简单的子问题，然后依次解决它们。每个子问题的解决都受到先前解决的子问题的答案的帮助。</p>
+<hr>
+
+<hr>
+<h2 id="LEAST-2-MOST-2"><a href="#LEAST-2-MOST-2" class="headerlink" title="LEAST 2 MOST"></a>LEAST 2 MOST</h2><ul>
+<li>当应用 least-to-most prompting 解决问题时，它分为两个阶段：<ul>
+<li><strong>第一阶段</strong>：向语言模型提出查询，将问题分解成子问题。也就是说，首先将复杂的问题分解成一系列更简单的子问题。</li>
+<li><strong>第二阶段</strong> : 再次向语言模型提出查询，逐个解决这些子问题。值得注意的是，解决第二个子问题的答案建立在第一个子问题的答案之上。原始问题被附加在最后作为最终的子问题。</li>
+<li>最终，least-to-most prompting 通过这种分阶段的方式，使得模型能够解决比示例中展示的问题更难的问题。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="LEAST-2-MOST-3"><a href="#LEAST-2-MOST-3" class="headerlink" title="LEAST 2 MOST"></a>LEAST 2 MOST</h2><p>让我们来举例说明一下least2most的工作流程:</p>
+<hr>
+
+<p>假设我们要解决一个复杂的问题</p>
+<blockquote>
+<p>A机器在一小时内可以生产10个零件，B机器在一小时内可以生产15个零件。如果两台机器一起工作，两小时内能生产多少个零件？</p>
+</blockquote>
+<hr>
+<h2 id="LEAST-2-MOST-4"><a href="#LEAST-2-MOST-4" class="headerlink" title="LEAST 2 MOST"></a>LEAST 2 MOST</h2><ul>
+<li>Decomposition 阶段：<ul>
+<li>提示内容：首先，我们向语言模型提供了一些示例，演示如何分解复杂问题。</li>
+<li>示例 1： <blockquote>
+<p>“A机器一小时生产10个零件，B机器一小时生产15个零件。”</p>
+</blockquote>
+</li>
+<li>示例 2： <blockquote>
+<p>“如果A机器和B机器一起工作，两台机器一小时内能生产多少个零件？”</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+
+<hr>
+<h2 id="LEAST-2-MOST-5"><a href="#LEAST-2-MOST-5" class="headerlink" title="LEAST 2 MOST"></a>LEAST 2 MOST</h2><p>语言模型通过这些示例了解到，问题可以被分解为两个子问题：</p>
+<ul>
+<li>计算A和B一起工作一小时能生产多少个零件 </li>
+<li>计算两小时内的生产总量。</li>
+</ul>
+<hr>
+    
+<p>接下来，我们向LLM提供了一个新的prompt，包括了以下三个部分：</p>
+<ul>
+<li>1.示例，演示了如何解决子问题。</li>
+<li>2.之前已回答的子问题和生成的解决方案（在第一阶段中可能会有一些子问题已经被解决）。</li>
+<li>3.下一个待回答的子问题。</li>
+</ul>
+<hr>
+
+<hr>
+<h2 id="LEAST-2-MOST-6"><a href="#LEAST-2-MOST-6" class="headerlink" title="LEAST 2 MOST"></a>LEAST 2 MOST</h2><p>首先，我们让llm解决第一个子问题：</p>
+<blockquote>
+<p>“A和B一起工作一小时能生产多少个零件？”</p>
+</blockquote>
+<ul>
+<li>示例： <blockquote>
+<p>“A机器一小时生产10个零件，B机器一小时生产15个零件。”</p>
+</blockquote>
+</li>
+<li>之前已回答的子问题：无</li>
+<li>待回答的子问题：<blockquote>
+<p>“A和B一起工作一小时能生产多少个零件？”</p>
+</blockquote>
+</li>
+</ul>
+<hr>
+
+<hr>
+<p>语言模型生成答案：</p>
+<blockquote>
+<p>“A和B一起工作一小时能生产25个零件。”<br>接着，我们将这个答案与下一个子问题结合，即第二个子问题：<br>“两小时内的生产总量是多少？”</p>
+</blockquote>
+<ul>
+<li>示例： “A和B一起工作两小时能生产多少个零件？”</li>
+<li>之前已回答的子问题：第一个子问题的答案。</li>
+<li>待回答的子问题：“两小时内的生产总量是多少？”</li>
+</ul>
+<p>最终，语言模型回答：</p>
+<blockquote>
+<p>“A和B一起工作两小时能生产50个零件。”</p>
+</blockquote>
+<p>通过这个示例，least-to-most prompting 通过分解问题和顺序解决子问题，引导语言模型完成了整个复杂问题的求解过程。</p>
+<hr>
+<h2 id="查询消歧"><a href="#查询消歧" class="headerlink" title="查询消歧"></a>查询消歧</h2><p>对于多义查询，通过识别用户意图并重新构建更具针对性的搜索查询来消除歧义。</p>
+<ul>
+<li>ECHOPROMPT（Mekala et al., 2024）</li>
+<li>TOC（Kim et al., 2023）</li>
+<li>INFOCQR（Ye et al., 2023）</li>
+<li>ADAQR（Zhang et al., 2024c）</li>
+</ul>
+<hr>
+
+<hr>
+<h2 id="ECHOPROMPT"><a href="#ECHOPROMPT" class="headerlink" title="ECHOPROMPT"></a>ECHOPROMPT</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2309.10687">echo prompt</a></p>
+</blockquote>
+<p><strong>How does it work ?</strong></p>
+<ul>
+<li><p><strong>重复关键信息</strong> ：在提示中重复重要的关键词或短语，以确保模型能够抓住核心内容。例如，如果提示是关于某个特定主题的，可以在提示的不同部分多次提到该主题的关键词。</p>
+</li>
+<li><p><strong>结构化提示</strong> ：通过在提示中引入结构化的回声，帮助模型理解提示的逻辑结构。例如，可以在提示的开头和结尾重复某个重要的句子或段落，以强化模型对该信息的记忆。</p>
+</li>
+<li><p><strong>上下文增强</strong> ：在提示中引入更多的上下文信息，通过重复相关的背景信息来帮助模型更好地理解当前任务。例如，在回答问题时，可以在提示中多次提到问题的背景信息，以确保模型生成的答案与上下文一致。</p>
+</li>
+</ul>
+<hr>
+<h2 id="ECHOPROMPT-1"><a href="#ECHOPROMPT-1" class="headerlink" title="ECHOPROMPT"></a>ECHOPROMPT</h2><p>让我们举个简单的例子说明echo prompt</p>
+<p>假设我们有一个query：</p>
+<blockquote>
+<p>Kelly 有 5 个 25 美分硬币和 2 个 10 美分硬币。如果她买了一罐 55 美分的汽水，她还剩多少美分？</p>
+</blockquote>
+<p>使用 Zero-shot-CoT 的标准提示</p>
+<blockquote>
+<p>让我们一步一步地思考。Kelly 有 5 个 25 美分硬币和 2 个 10 美分硬币。所以，她有 5 个 25 美分硬币和 2 个 10 美分硬币。5 个 25 美分硬币 &#x3D; 5 x 25 美分 &#x3D; 125 美分，2 个 10 美分硬币 &#x3D; 2 x 10 美分 &#x3D; 20 美分。所以，她有 125 + 20 &#x3D; 145 美分。<br>因此，答案是 145 美分。 ✗</p>
+</blockquote>
+<hr>
+<ul>
+<li>使用 Zero-shot-CoT 和 EchoPrompt 的提示<blockquote>
+<p>让我们重复问题并一步一步地思考。Kelly 有 5 个 25 美分硬币和 2 个 10 美分硬币。她买了一罐 55 美分的汽水。她还剩多少美分？<br>让我们从第一步开始。Kelly 有 5 个 25 美分硬币和 2 个 10 美分硬币。我们可以表示为：5 个 25 美分硬币 &#x3D; 5 x 25 美分 &#x3D; 125 美分。2 个 10 美分硬币 &#x3D; 2 x 10 美分 &#x3D; 20 美分。所以，Kelly 有 125 + 20 &#x3D; 145 美分。她买了一罐 55 美分的汽水。我们可以表示为：55 美分。所以，Kelly 还剩 145 - 55 &#x3D; 90 美分。<br>因此，答案是 90 美分。 ✔</p>
+</blockquote>
+</li>
+</ul>
+<p>在这个示例中，使用 EchoPrompt 技术的提示<red>首先重复了问题，然后一步一步地解决问题。</red>这种方法帮助模型更好地理解问题的上下文，并生成更准确的答案。通过这种方式，EchoPrompt 提高了模型在解决问题时的准确性。</p>
+<hr>
+<h2 id="查询抽象："><a href="#查询抽象：" class="headerlink" title="查询抽象："></a>查询抽象：</h2><p>提供对事实需求的更广泛视角，可能导致更多样和全面的结果。这涉及识别和提炼查询的基本意图和核心概念，然后创建一个更高层次的表示，捕捉基本含义，同时去除具体细节。</p>
+<ul>
+<li>STEP-BACK（Zheng et al., 2024）</li>
+<li>COA（Gao et al., 2024）</li>
+<li>AOT（Hong et al., 2024）</li>
+<li>MA-RIR（Korikov et al., 2024）</li>
+</ul>
+<hr>
+
+<hr>
+<h2 id="STEP-BACK"><a href="#STEP-BACK" class="headerlink" title="STEP-BACK"></a>STEP-BACK</h2><blockquote>
+<p>人类再解决一个包含很多细节的具体问题时，先站在更高的层次上解决一些更加抽象的问题，可以拓展一个更宽阔的上下文环境，从而辅助解决这个具体的问题。</p>
+</blockquote>
+<hr> 
+
+<p>反应到 LLM 中，就是当问 LLM 一个具体的物理题目时，先让 LLM <red>解决一个更加高层次的抽象问题</red></p>
+<p>这个问题背后用得到物理定律或法则是什么？ 然后再让 LLM 去解决那个包含了很多细节的具体的物理题目，可能效果就会更好，准确率更高。</p>
+<p>这种方法将知识密集型问答、多跳推理和科学问题等复杂任务分解为两个独立的步骤：抽象和推理。</p>
+<hr>
+<h2 id="STEP-BACK-1"><a href="#STEP-BACK-1" class="headerlink" title="STEP-BACK"></a>STEP-BACK</h2><p>这种方法将知识密集型问答、多跳推理和科学问题等复杂任务分解为两个独立的步骤：**<blue>抽象和推理</blue>**。</p>
+<ul>
+<li>Abstraction：首先，模型从包含具体细节的实例中提取出高层次的概念和基本原理。这一步通过创建一个新的语义层次，使模型能够更精确地理解问题的核心内容。</li>
+<li>Reasoning：然后，模型利用这些高层次的概念和基本原理来指导推理过程，从而找到解决方案。这减少了中间步骤中推理失败的可能性，并显著提高了模型在各种复杂推理任务中的表现。</li>
+</ul>
+<hr>
+
+<hr>
+<h2 id="STEP-BACK-2"><a href="#STEP-BACK-2" class="headerlink" title="STEP-BACK"></a>STEP-BACK</h2><p>让我们举个简单的例子;比如我们有query：</p>
+<blockquote>
+<p>“Estella Leopold 在 1954 年 8 月到 1954 年 11 月期间就读于哪所学校？”</p>
+</blockquote>
+<ul>
+<li>使用标准提示<blockquote>
+<p>Estella Leopold 在 1954 年 8 月到 1954 年 11 月期间就读于哪所学校？</p>
+<p>Estella Leopold 在 1954 年 8 月到 1954 年 11 月期间就读于某某学校。</p>
+</blockquote>
+</li>
+</ul>
+<hr>
+<h2 id="STEP-BACK-3"><a href="#STEP-BACK-3" class="headerlink" title="STEP-BACK"></a>STEP-BACK</h2><ul>
+<li>使用 Step-Back Prompting 的提示<blockquote>
+<p>让我们退一步，问一个更高层次的问题。Estella Leopold 的教育历史是什么？通过了解她的教育历史，我们可以推断出她在 1954 年 8 月到 1954 年 11 月期间就读于哪所学校。</p>
+</blockquote>
+</li>
+</ul>
+<p>在这个示例中，Step-Back Prompting 技术首先将具体的问题抽象为一个更高层次的问题，即<blue>“Estella Leopold 的教育历史是什么？”</blue></p>
+<p>通过回答这个更高层次的问题，模型可以更好地理解和推理，从而得出具体时间段内的答案。这种方法帮助模型减少中间步骤中的推理错误，提高了回答的准确性和连贯性。</p>
+<hr>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/RAG/"># RAG</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/11/19/Deploy_Rocm/">Rocm</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="slogan">
+        <span>Blessed is the man who does not walk in the counsel of the wicked or stand in the way of sinners or sit in the seat of mockers.<a href="" target="_blank"></a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
