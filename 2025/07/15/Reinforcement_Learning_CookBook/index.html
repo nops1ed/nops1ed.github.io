@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="nops1ed">
+
+
+
+
+
+<title>Reinforcement_Learning_CookBook | nops1ed&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">nops1ed&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">nops1ed&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Reinforcement_Learning_CookBook</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="Reinforcement-Learning-CookBook"><a href="#Reinforcement-Learning-CookBook" class="headerlink" title="Reinforcement Learning CookBook"></a>Reinforcement Learning CookBook</h1><hr>
+<h2 id="本文旨在协助快速理解并实际上手RL，不希望把RL的概念束之高阁。"><a href="#本文旨在协助快速理解并实际上手RL，不希望把RL的概念束之高阁。" class="headerlink" title="本文旨在协助快速理解并实际上手RL，不希望把RL的概念束之高阁。"></a>本文旨在协助快速理解并实际上手RL，不希望把RL的概念束之高阁。</h2><h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><h3 id="What-Why-How"><a href="#What-Why-How" class="headerlink" title="What? Why? How?"></a>What? Why? How?</h3><h3 id="为什么不是监督学习？"><a href="#为什么不是监督学习？" class="headerlink" title="为什么不是监督学习？"></a>为什么不是监督学习？</h3><p>监督学习（supervised learning）假设我们有大量被标注的数据，比如汽车、飞机、椅子这些被标注的图片，这些图片都要满足独立同分布，即它们之间是没有关联关系的：</p>
+<p><img src="/media/media/image1.png"></p>
+<p>假设我们训练一个分类器，比如神经网络。为了分辨输入的图片中是汽车还是飞机，在训练过程中，需要把正确的标签信息传递给神经网络。 当神经网络做出错误的预测时，比如输入汽车的图片，它预测出来是飞机，我们就会直接告诉它，该预测是错误的，正确的标签应该是汽车。最后我们根据类似错误写出一个loss function，通过反向传播来训练神经网络。</p>
+<p><img src="/media/media/image2.png"></p>
+<p>总的来说，监督学习有如下两个特点：</p>
+<p>输入的数据（也就是标注的数据）都应是没有关联的。因为如果输入的数据有关联，Learner 是不好学习的。</p>
+<p>需要告诉learner正确的label是什么，这样它可以通过正确的label来修正自己的预测。</p>
+<h3 id="RL"><a href="#RL" class="headerlink" title="RL"></a>RL</h3><p>强化学习（reinforcement learning，RL）讨论的问题是agent怎么在复杂、不确定的环境中最大化它能获得的奖励。如图所示，RL由两部分组成：Agent和环境。在RL过程中，Agent与环境一直在交互。Agent在环境中获取某个状态后，它会利用该状态输出一个动作，这个动作也称为<u>决策</u>。然后这个动作会在环境中被执行，环境会根据Agent采取的动作，输出下一个状态以及当前这个动作带来的奖励。Agent的目的就是尽可能多地从环境中获取奖励。</p>
+<p><img src="/media/media/image3.png"></p>
+<h2 id="基础-核心概念（optional）"><a href="#基础-核心概念（optional）" class="headerlink" title="基础 &amp; 核心概念（optional）"></a>基础 &amp; 核心概念（optional）</h2><p>让我们先介绍几个枯燥的数学概念，尽管他们中的一些并不会显式地呈现在RL的过程中，但他们会对理解RL有更多的帮助：</p>
+<h3 id="MDP"><a href="#MDP" class="headerlink" title="MDP"></a>MDP</h3><p>理解马尔可夫决策是弄清RL的关键，让我们先聊一下马尔可夫过程：</p>
+<hr>
+<h2 id="“未来的状态只取决于当前状态，与过去的状态无关”。"><a href="#“未来的状态只取决于当前状态，与过去的状态无关”。" class="headerlink" title="“未来的状态只取决于当前状态，与过去的状态无关”。"></a>“未来的状态只取决于当前状态，与过去的状态无关”。</h2><p>如果一个随机过程的状态序列 $S_{1},S_{2},\ldots,S_{t}$满足$P\left( S_{t + 1}|S_{t},S_{t - 1},\ldots,S_{1} \right) &#x3D; P\left( S_{t + 1}|S_{t} \right)$, 则称其为马尔可夫过程。</p>
+<p>| 简单说，就是 “知道现在，就能预测未来，不需要回头看过去”。比如：                                |<br>|                                                                                                |<br>| 天气变化：明天是否下雨，只取决于今天的天气（假设无长期趋势）；                                 |<br>|                                                                                                |<br>| <u>游戏角色状态：下一秒的位置，只取决于当前位置和运动方向，与 10 分钟前的位置无关</u>。 |</p>
+<p>正如我们在开头所说，强化学习研究的是 “在复杂、不确定的环境中最大化它能获得的奖励”，而环境的动态规律恰好可以用MDP建模</p>
+<p>MDP 是马尔可夫过程的扩展，增加了两个关键要素：</p>
+<p>动作（Action）：Agent可以选择的行为（如游戏中 “向左走””攻击”）；</p>
+<p>奖励（Reward）：Agent执行动作后获得的即时反馈（如 “吃到金币 + 10 分””掉血 - 50 分”）。</p>
+<h3 id="Policy-Reward"><a href="#Policy-Reward" class="headerlink" title="Policy &amp; Reward"></a>Policy &amp; Reward</h3><p>在RL中，策略（Policy）和奖励（Reward）是两个核心概念，它们共同引导Agent学习如何在环境中做出最优决策。</p>
+<p><strong>策略（Policy）</strong>是Agent的行为准则，决定了在特定状态下应该采取什么动作。简单来说，策略就是一个从状态到动作的<u>映射函数</u>。</p>
+<p>| 策略可以想象成一本&quot;行动指南&quot;：                                      |<br>|                                                                       |<br>| 如果你在迷宫的十字路口（状态），就向右转（动作）                      |<br>|                                                                       |<br>| 如果你看到敌人（状态），就开火攻击（动作）                            |<br>|                                                                       |<br>| 如果库存不足（状态），就补充库存（动作）                              |</p>
+<p>策略通常用符号 $\pi$ 表示，可以分为两种主要类型：</p>
+<p><strong>确定性策略（Deterministic Policy）</strong>：对于给定状态，总是输出同一个确定的动作。</p>
+<p>表示为：$a &#x3D; \pi(s)$</p>
+<p>例如：在国际象棋中，特定局面总是选择同一个最佳走法</p>
+<blockquote>
+<p><img src="/media/media/image4.png"></p>
+</blockquote>
+<p><strong>图为四回合将杀（Scholar’s mate），在初学者实战中常常出现</strong></p>
+<p><strong>随机性策略（Stochastic Policy）</strong>：对于给定状态，输出的是动作的概率分布。</p>
+<p>表示为：$\pi\left( a|s \right) &#x3D; P\left( A_{t} &#x3D; a|S_{t} &#x3D; s \right)$</p>
+<p>例如：在石头剪刀布游戏中，可能以60%概率出石头，30%概率出剪刀，10%概率出布</p>
+<blockquote>
+<p><img src="/media/media/image5.jpeg"></p>
+</blockquote>
+<p>随机性策略的一个重要优势是它天然支持探索，因为它允许Agent尝试各种可能的动作，而不仅仅局限于当前认为最优的动作。</p>
+<p><strong>奖励（Reward）</strong>是环境给予Agent的即时反馈信号，用于评价Agent采取的动作的好坏。奖励函数 $R\left( s,a,s^{‘} \right)$ 定义了在状态 $s$ 下执行动作 $a$ 并转移到状态 $s^{‘}$ 时获得的奖励值。</p>
+<p>| 奖励就像是游戏中的积分系统：                                          |<br>|                                                                       |<br>| 在游戏中击败敌人：+100分                                              |<br>|                                                                       |<br>| 收集金币：+10分                                                       |<br>|                                                                       |<br>| 掉入陷阱：-50分                                                       |<br>|                                                                       |<br>| 成功通关：+1000分                                                     |</p>
+<h3 id="探索与利用"><a href="#探索与利用" class="headerlink" title="探索与利用"></a>探索与利用</h3><p>在强化学习中，探索（Exploration）与利用（Exploitation）的权衡是一个核心问题。这个问题可以用一个简单的比喻来理解：</p>
+<p>| 想象你在一个陌生城市找餐厅吃饭：                                      |<br>|                                                                       |<br>| 探索：尝试从未去过的新餐厅（可能发现宝藏小店，也可能踩雷）            |<br>|                                                                       |<br>| 利用：去吃港知味（保证满意，但可能错过更好的选择）                    |</p>
+<p><strong>探索（Exploration）</strong>是指Agent尝试新的、未知的行为，以获取更多关于环境的信息。探索的目的是发现可能存在的更优策略。</p>
+<p>探索的优点：</p>
+<p>有助于发现潜在的高回报策略</p>
+<p>防止陷入局部最优</p>
+<p>增强对环境变化的适应能力</p>
+<p>探索的缺点：</p>
+<p>可能导致短期内获得较低的回报</p>
+<p>过度探索会降低学习效率</p>
+<p><strong>利用（Exploitation）</strong>是指Agent基于已有的知识，选择当前认为能带来最高回报的行为。</p>
+<p>利用的优点：</p>
+<p>保证获得相对稳定的回报</p>
+<p>加速学习过程中的收敛</p>
+<p>利用的缺点：</p>
+<p>可能错过更优的策略</p>
+<p>容易陷入局部最优解</p>
+<p>在强化学习中，我们需要在探索和利用之间找到平衡。如果过度探索，Agent可能花费太多时间在无用的尝试上；如果过度利用，Agent可能永远找不到最优策略。</p>
+<p>| (摘自某知名RL书籍)常见的探索策略包括：                                                                                                |<br>|                                                                                                                                       |<br>| <strong>ε-贪心（ε-greedy）</strong>：                                                                                                              |<br>|                                                                                                                                       |<br>| 以概率 ε 选择随机动作（探索）                                                                                                         |<br>|                                                                                                                                       |<br>| 以概率 1-ε 选择当前估计最优的动作（利用）                                                                                             |<br>|                                                                                                                                       |<br>| ε 通常会随时间衰减，从而逐渐从探索过渡到利用                                                                                          |<br>|                                                                                                                                       |<br>| <strong>玻尔兹曼探索（Boltzmann Exploration）</strong>：                                                                                           |<br>|                                                                                                                                       |<br>| 根据每个动作的估计价值，计算选择该动作的概率                                                                                          |<br>|                                                                                                                                       |<br>| 使用温度参数控制探索程度：高温时行为更随机，低温时更倾向于选择高价值动作                                                              |<br>|                                                                                                                                       |<br>| 公式：$P\left( a|s \right) &#x3D; \frac{e^{Q\left( s,a \right)&#x2F;\tau}}{\sum_{a^{‘}}^{}e^{Q\left( s,a^{‘} \right)&#x2F;\tau}}$，其中 τ 是温度参数 |<br>|                                                                                                                                       |<br>| <strong>上置信界（Upper Confidence Bound, UCB）</strong>：                                                                                         |<br>|                                                                                                                                       |<br>| 选择具有最高置信上界的动作                                                                                                            |<br>|                                                                                                                                       |<br>| 结合了动作的估计价值和不确定性                                                                                                        |<br>|                                                                                                                                       |<br>| 公式：$UCB(a) &#x3D; Q(a) + c\sqrt{\frac{\ln(t)}{N(a)}}$，其中 $N(a)$ 是动作 $a$ 被选择的次数，$t$ 是总步数                                |<br>|                                                                                                                                       |<br>| <strong>汤普森采样（Thompson Sampling）</strong>：                                                                                                 |<br>|                                                                                                                                       |<br>| 维护每个动作回报的概率分布                                                                                                            |<br>|                                                                                                                                       |<br>| 每次从这些分布中采样，选择样本值最高的动作                                                                                            |<br>|                                                                                                                                       |<br>| 自然地平衡了探索和利用                                                                                                                |<br>|                                                                                                                                       |<br>| <strong>内在动机（Intrinsic Motivation）</strong>：                                                                                                |<br>|                                                                                                                                       |<br>| 除了外部奖励，还给予智能体内在奖励来鼓励探索                                                                                          |<br>|                                                                                                                                       |<br>| 常见的内在奖励包括新颖性（novelty）、好奇心（curiosity）和惊奇度（surprise）                                                          |<br>|                                                                                                                                       |<br>| 例如，可以奖励智能体访问新状态或减少预测误差                                                                                          |<br>|                                                                                                                                       |<br>| 在连续动作空间中，探索通常通过在策略输出上添加噪声来实现，如：                                                                        |<br>|                                                                                                                                       |<br>| 在确定性策略（如DDPG）中添加高斯噪声或奥恩斯坦-乌伦贝克过程噪声                                                                       |<br>|                                                                                                                                       |<br>| 在随机策略中，通过增加策略的熵（entropy）来鼓励探索（如SAC算法）                                                                      |</p>
+<p>随着学习的进行，探索程度通常会逐渐减小，让Agent更多地利用已学到的知识。这种从&quot;广泛试错&quot;到&quot;精益执行&quot;的过渡是RL成功的关键。</p>
+<h2 id="那强化学习在业界又是如何？"><a href="#那强化学习在业界又是如何？" class="headerlink" title="那强化学习在业界又是如何？"></a>那强化学习在业界又是如何？</h2><h3 id="目前业界应用"><a href="#目前业界应用" class="headerlink" title="目前业界应用"></a>目前业界应用</h3><p>RL一直以在游戏领域的应用较为广泛，并且取得了可观的成果，从当初的97年的深蓝（严格来说不是RL）到几年前的AlphaGo再到现在的各种游戏智能NPC</p>
+<h3 id="AlphaGo"><a href="#AlphaGo" class="headerlink" title="AlphaGo"></a>AlphaGo</h3><p><strong>(摘自BBC)在三局两胜的比赛中人工智能AlphaGo赢得了第两局对战，捍卫了比赛的最终胜利。</strong></p>
+<p>在比赛过程中，DeepMind的创建者哈萨比斯（Demis Hassabis）形容柯洁&quot;下得十分完美&quot;；赛后也称赞柯洁&quot;几乎将AlphaGo的能力逼到了极限&quot;。</p>
+<p><img src="/media/media/image6.png"> <img src="/media/media/image7.png"></p>
+<p>比赛结束后，柯洁接受了记者的采访并表示：&quot;其实我有一些遗憾，因为我觉得是可以打败它的。&quot;</p>
+<p><strong>AlphaGo对阵柯洁</strong>的三番棋比赛于2017年5月23日、25日和27日在中国<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%B9%8C%E9%95%87%E9%95%87">乌镇</a><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E4%B9%8C%E9%95%87%E5%9B%B4%E6%A3%8B%E5%B3%B0%E4%BC%9A">围棋峰会</a>进行，<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Master_(%E5%9B%B4%E6%A3%8B%E8%BD%AF%E4%BB%B6)">AlphaGo Master</a>以3：0战胜了当时世界排名第一的围棋棋手<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%9F%AF%E6%B4%81">柯洁</a>。</p>
+<h3 id="逆水寒"><a href="#逆水寒" class="headerlink" title="逆水寒"></a>逆水寒</h3><hr>
+<h2 id="图为网易的招牌游戏：逆水寒，它向我们展示了RL后的NPC-其作为游戏的一个巨大亮点，在市场上脱颖而出的同时为游戏收获了巨大的流量"><a href="#图为网易的招牌游戏：逆水寒，它向我们展示了RL后的NPC-其作为游戏的一个巨大亮点，在市场上脱颖而出的同时为游戏收获了巨大的流量" class="headerlink" title="图为网易的招牌游戏：逆水寒，它向我们展示了RL后的NPC,其作为游戏的一个巨大亮点，在市场上脱颖而出的同时为游戏收获了巨大的流量"></a>图为网易的招牌游戏：逆水寒，它向我们展示了RL后的NPC,其作为游戏的一个巨大亮点，在市场上脱颖而出的同时为游戏收获了巨大的流量</h2><p><img src="/media/media/image8.gif"></p>
+<h3 id="Starcraft"><a href="#Starcraft" class="headerlink" title="Starcraft"></a>Starcraft</h3><hr>
+<h2 id="下图为星际争霸通过RL取得的成果–-AlphaStar"><a href="#下图为星际争霸通过RL取得的成果–-AlphaStar" class="headerlink" title="下图为星际争霸通过RL取得的成果– AlphaStar"></a>下图为星际争霸通过RL取得的成果– AlphaStar</h2><p><a target="_blank" rel="noopener" href="https://www.seas.upenn.edu/~cis520/papers/RL_for_starcraft.pdf">RL_for_starcraft</a></p>
+<p><img src="/media/media/image9.png"></p>
+<p>AlphaStar曾在BattleNet上<u>与真实玩家对抗</u>，玩家会有评级，根据MMR分值分成7个等级，最低的等级是青铜（Bronze），最高是大师（Grandmaster）。AlphaStar分为三个版本，一个是只进行监督学习的版本（AlphaStar Supervised）、一个是中间版本（AlphaStar Mid）和最终版本（AlphaStar Final）。从图中可见，”只进行监督学习的版本”达到84%的人类水平，中间版本达到99.5%，而最终版本达到99.85%。</p>
+<p><img src="/media/media/image10.png"></p>
+<p><strong>举例这么多，是希望向大家说明：为什么我们关注强化学习，其中非常重要的一个原因就是强化学习得到的模型可以有远超人类的表现。 监督学习获取的监督数据，其实是人来标注的，比如 ImageNet 的图片的标签都是人类标注的。因此我们 可以确定监督学习算法的上限（upper bound）就是人类的表现，标注结果决定了它的表现永远不可能超越人类。</strong></p>
+<p><strong>但是对于强化学习，它在环境里面自己探索，有非常大的潜力，它可以获得超越人类的能力的表现，比如 DeepMind 的 AlphaGo 这样一个强化学习的算法可以把人类顶尖的棋手(李世石，杰宝)打败。</strong></p>
+<h2 id="Let’s-Doom"><a href="#Let’s-Doom" class="headerlink" title="Let’s Doom"></a>Let’s Doom</h2><p>无聊的理论讲完了，让我们快速上手一个demo来实际理解RL；在这里DOOM是一个好的选择：他是一个简单的、经典的最适合RL的训练场景</p>
+<p><img src="/media/media/image11.jpeg"></p>
+<p>《Doom》于 1993 年在 DOS 系统发布，是第一人称射击游戏的先锋。它采用了包围游戏角色的 3D 环境绘图，支持多人游戏，并且拥有能让玩家自由创建扩展游戏内容的 WAD 架构。这些创新为后来的第一人称射击游戏奠定了基础，90 年代中期以后激增的此类游戏，通常被称为 “类 DOOM（Doom-like）” 游戏。</p>
+<p><img src="/media/media/image12.jpeg"></p>
+<hr>
+<h2 id="Traditional-Deere-tractor-display"><a href="#Traditional-Deere-tractor-display" class="headerlink" title="Traditional Deere tractor display"></a>Traditional Deere tractor display</h2><p><img src="/media/media/image13.png"></p>
+<hr>
+<h2 id="It-runs-DOOM！"><a href="#It-runs-DOOM！" class="headerlink" title="It runs DOOM！"></a>It runs DOOM！</h2><p><img src="/media/media/image14.png"></p>
+<p>让我们上手一个实际的场景来强化对RL的认识，为此我做了一个DOOM的demo</p>
+<p>我们利用VizDoom</p>
+<p><a target="_blank" rel="noopener" href="https://vizdoom.cs.put.edu.pl/research">Vizdoom</a></p>
+<hr>
+<h2 id="VizDoom是一个基于经典游戏《DOOM》的RL研究平台，它允许AI-Agent通过视觉信息（游戏屏幕）来学习玩游戏。VizDoom的特点是轻量级（几MB大小）、高性能（单线程可达每秒7000帧）、多平台支持（Linux、macOS、Windows）以及提供丰富的API（Python和C-）。"><a href="#VizDoom是一个基于经典游戏《DOOM》的RL研究平台，它允许AI-Agent通过视觉信息（游戏屏幕）来学习玩游戏。VizDoom的特点是轻量级（几MB大小）、高性能（单线程可达每秒7000帧）、多平台支持（Linux、macOS、Windows）以及提供丰富的API（Python和C-）。" class="headerlink" title="VizDoom是一个基于经典游戏《DOOM》的RL研究平台，它允许AI Agent通过视觉信息（游戏屏幕）来学习玩游戏。VizDoom的特点是轻量级（几MB大小）、高性能（单线程可达每秒7000帧）、多平台支持（Linux、macOS、Windows）以及提供丰富的API（Python和C++）。"></a><em>VizDoom是一个基于经典游戏《DOOM》的RL研究平台，它允许AI Agent通过视觉信息（游戏屏幕）来学习玩游戏。VizDoom的特点是轻量级（几MB大小）、高性能（单线程可达每秒7000帧）、多平台支持（Linux、macOS、Windows）以及提供丰富的API（Python和C++）。</em></h2><p>Training支持MPS加速，如果你使用M2pro以上的macbook，会得到较好的体验</p>
+<hr>
+<h2 id="github-https-github-com-nops1ed-doom-RL"><a href="#github-https-github-com-nops1ed-doom-RL" class="headerlink" title="github: https://github.com/nops1ed/doom-RL"></a>github: <a target="_blank" rel="noopener" href="https://github.com/nops1ed/doom-RL">https://github.com/nops1ed/doom-RL</a></h2><p>训练过程中：Agent在每轮的奖励中了解到，自己移动开枪才有机会杀死敌人，获得加分</p>
+<p><img src="/media/media/image15.gif"></p>
+<p>训练一段时间后：</p>
+<p><img src="/media/media/image16.gif"></p>
+<p>在这里，我们定义了一个简单的Reward函数，对Agent的血量，弹药，杀敌，以及造成的伤害都进行统计，这不见得是一个好的奖励函数，但在这里训练一个只会打中敌人的agent来说，足够了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">_calculate_custom_reward</span>(<span class="params">self</span>):</span><br><span class="line">    state = <span class="variable language_">self</span>.game.get_state()</span><br><span class="line">    game_vars = state.game_variables</span><br><span class="line">    </span><br><span class="line">    current_health = game_vars[<span class="number">1</span>]</span><br><span class="line">    current_ammo = game_vars[<span class="number">2</span>]</span><br><span class="line">    current_kills = game_vars[<span class="number">0</span>]</span><br><span class="line">    current_damage = game_vars[<span class="number">3</span>]</span><br><span class="line">    </span><br><span class="line">    reward = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> current_kills &gt; <span class="variable language_">self</span>.prev_kills:</span><br><span class="line">        reward += <span class="variable language_">self</span>.reward_weights[<span class="string">&#x27;kill&#x27;</span>] * (current_kills - <span class="variable language_">self</span>.prev_kills)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> current_damage &gt; <span class="variable language_">self</span>.prev_damage:</span><br><span class="line">        reward += <span class="variable language_">self</span>.reward_weights[<span class="string">&#x27;damage_taken&#x27;</span>] * (current_damage - <span class="variable language_">self</span>.prev_damage)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> current_ammo &gt; <span class="variable language_">self</span>.prev_ammo:</span><br><span class="line">        reward += <span class="variable language_">self</span>.reward_weights[<span class="string">&#x27;ammo_gain&#x27;</span>] * (current_ammo - <span class="variable language_">self</span>.prev_ammo)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> current_health &gt; <span class="variable language_">self</span>.prev_health:</span><br><span class="line">        reward += <span class="variable language_">self</span>.reward_weights[<span class="string">&#x27;health_gain&#x27;</span>] * (current_health - <span class="variable language_">self</span>.prev_health)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> <span class="variable language_">self</span>.game.get_episode_time() - <span class="variable language_">self</span>.episode_start_time &gt; <span class="number">50</span>:</span><br><span class="line">        reward += <span class="variable language_">self</span>.reward_weights[<span class="string">&#x27;survival&#x27;</span>]</span><br><span class="line">    </span><br><span class="line">    reward += <span class="variable language_">self</span>.reward_weights[<span class="string">&#x27;time_penalty&#x27;</span>]</span><br><span class="line">    </span><br><span class="line">    <span class="variable language_">self</span>.prev_health = current_health</span><br><span class="line">    <span class="variable language_">self</span>.prev_ammo = current_ammo</span><br><span class="line">    <span class="variable language_">self</span>.prev_kills = current_kills</span><br><span class="line">    <span class="variable language_">self</span>.prev_damage = current_damage</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> reward</span><br></pre></td></tr></table></figure>
+
+<h2 id="RL-vs-SL"><a href="#RL-vs-SL" class="headerlink" title="RL vs. SL"></a>RL vs. SL</h2><p>对于一般的有监督学习任务，我们的目标是找到一个最优的模型函数，使其在训练数据集上最小化一个给定的Loss function。在训练数据独立同分布的假设下，这个优化目标表示最小化模型在整个数据分布上的泛化误差，用简要的公式可以概括为：</p>
+<p>$\backslash text{ 最优模型}\  &#x3D; \ \backslash arg\ \backslash min_{\backslash text{ 模型}}\ E_{(\backslash text{ 特征},\ \backslash text{ 标签})\backslash sim\backslash text{ 数据分布}}\ \lbrack\backslash text{ 损失函数}(\backslash text{ 标签},\ \backslash text{ 模型}(\backslash text{ 特征}))\rbrack<br>$</p>
+<p>相比之下，强化学习任务的最终优化目标是最大化智能体策略在和动态环境交互过程中的价值。根据1.5节的分析，策略的价值可以等价转换成奖励函数在策略的占用度量上的期望，即：</p>
+<p>$\backslash text{ 最优策略}\  &#x3D; \ \backslash arg\backslash max_{\backslash text{ 策略}}\ E_{(\backslash text{ 状态},\ \backslash text{ 动作})\backslash sim\backslash text{ 策略的占用度量}}\ \lbrack\backslash text{ 奖励函数}(\backslash text{ 状态},\ \backslash text{ 动作})\rbrack<br>$</p>
+<h2 id="未来也许会…"><a href="#未来也许会…" class="headerlink" title="未来也许会…"></a>未来也许会…</h2>
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/DeepLearning/"># DeepLearning</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2025/03/18/RAG_Benchmark/"></a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="slogan">
+        <span>Home,sweet home<a href="" target="_blank"></a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
