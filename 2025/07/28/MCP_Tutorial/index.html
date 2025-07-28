@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="nops1ed">
+
+
+
+
+
+<title>nops1ed&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">nops1ed&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">nops1ed&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title"></h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p><strong>给大忙人看的MCP Tutorial</strong></p>
+<p><strong>MCP是个啥？</strong></p>
+<p><img src="/media_2/image1.png">{width&#x3D;”5.75in” height&#x3D;”3.2291666666666665in”}</p>
+<p>MCP 全称 <em>Model Context Protocol，</em><a target="_blank" rel="noopener" href="https://www.anthropic.com/news/model-context-protocol">于 2024 年 11 月由Anthropic推出</a><em>。</em>顾名思义，它是一组协议，更具体来讲是一组用于规定<strong>标准化</strong>LLM如何与外部信息源连接的规则。可以将 MCP 想象成 AI 应用程序的 USB-C 接口。就像 USB-C 为设备连接各种外设和配件提供了标准化方式一样，MCP 为 AI 模型连接不同的数据源和工具提供了标准化方式。</p>
+<p><strong>MCP架构</strong></p>
+<p>- WIP</p>
+<p><strong>MCP VS. Function Calling（可选）</strong></p>
+<p><strong>什么是Function Calling ？</strong></p>
+<p>在不启用联网搜索的情况下，我们询问豆包：</p>
+<p><img src="/media_2/image2.png">{width&#x3D;”5.75in” height&#x3D;”1.6875in”}</p>
+<p>可以看到LLM的自身数据截止到2024年10月, 如果这个问题需要人类帮助LLM来解决，那么一个有效的操作步骤可以是：</p>
+<p>+————————————————————————————————————————————————–+<br>| <strong>选择工具</strong>                                                                                                                                     |<br>|                                                                                                                                                  |<br>| 由于问题是关于实时新闻的，打开浏览器工具；                                                                                                       |<br>|                                                                                                                                                  |<br>| <strong>提取参数</strong>                                                                                                                                     |<br>|                                                                                                                                                  |<br>| 由于提问的问题是”niko在哪个战队？”，用浏览器输入框查询”niko在哪个战队？”；                                                                       |<br>|                                                                                                                                                  |<br>| <strong>运行工具</strong>                                                                                                                                     |<br>|                                                                                                                                                  |<br>| 浏览器返回了许多网页，如”<a target="_blank" rel="noopener" href="https://dj.sina.com.cn/article/neevenz9590820.shtml">NiKo转会Falcons：争议与期望并存</a>“等；                             |<br>|                                                                                                                                                  |<br>| <strong>将工具的输出提供给大模型</strong>                                                                                                                     |<br>|                                                                                                                                                  |<br>| 将网页内容输入到提示词对通义千问 API 进行提问：”这是查询到的信息：NiKo转会Falcons：争议与期望并存......。请总结并回答：2025年Niko在哪个战队？” |<br>+————————————————————————————————————————————————–+</p>
+<p>由于向大模型提供了足够的参考信息，可以得到类似的回复：</p>
+<hr>
+<p>  JSON<br>  call_result<br>  2025 年，NiKo 在 Falcons（猎鹰）战队。<br>  <br>  2024 年 8 月，有外媒爆料称 G2 战队的 NiKo 将加盟 Falcons 战队。2024 年 10 月，有消息称 NiKo 加盟后的首秀帮助 Falcons 团队斩获 PGL 布加勒斯特站冠军。2025 年 1 月 3 日，沙特电竞俱乐部 Falcons 正式官宣 NiKo 加盟其 CS2 分部</p>
+<hr>
+<p>LLM此时可以回答关于实时新闻的问题了，然而这个过程需要人的参与（选择工具、提取参数、运行工具），无法实现自动化运行的效果。</p>
+<p>Function Calling（工具调用）可以自动化完成以上流程，在接收到提问后可以自动选择工具、提取参数、运行工具并总结工具的输出</p>
+<p><strong>这二者有何不同？</strong></p>
+<p>虽然Function Calling让 LLM的能力变强了很多，但它也有不少问题需要解决：</p>
+<p>+——————————————————————————————————————————————————————————————————————————————————————————————————————————————-+<br>| function只能提前设定，不够灵活                                                                                                                                                                                                                                                                                                            |<br>|                                                                                                                                                                                                                                                                                                                                           |<br>| 现在的 LLM只能用我们提前教给它的功能。比如你提前教它查天气、算数学题，它就只会这两样。如果突然问它 &quot;怎么坐大巴去二仙桥然后在二仙桥跳广场舞最后在二仙桥安放C4炸弹&quot;，因为没提前教过相关功能，它要么答不上来，要么只能随便说点通用的话。遇到需要分步骤解决的复杂问题或者需要创意的任务，固定的功能列表会限制它的发挥，很难灵活应对新需求。 |<br>|                                                                                                                                                                                                                                                                                                                                           |<br>| function太多时，LLM会 &quot;记混&quot;                                                                                                                                                                                                                                                                                                            |<br>|                                                                                                                                                                                                                                                                                                                                           |<br>| 当提供的功能超过几十个或更多，模型就会出现两个问题：一是prompt太长，超过它能 &quot;记住&quot; 的内容长度；二是容易把功能搞混，比如把 &quot;查天气&quot; 的功能当成 &quot;订外卖&quot; 来用。这时候就需要给功能分类，否则LLM最终会乱套。                                                                                                                           |<br>|                                                                                                                                                                                                                                                                                                                                           |<br>| 容易 &quot;犯低级错误&quot;                                                                                                                                                                                                                                                                                                                       |<br>|                                                                                                                                                                                                                                                                                                                                           |<br>| &gt; LLM在使用function时可能犯两种错：                                                                                                                                                                                                                                                                                                       |<br>|                                                                                                                                                                                                                                                                                                                                           |<br>| <strong>用错function</strong>：比如用户想算乘法，它却调用了查天气的功能。（当然并不会这么傻，比喻，现实场景往往会更复杂）                                                                                                                                                                                                                              |<br>|                                                                                                                                                                                                                                                                                                                                           |<br>| <strong>填错参数</strong>：比如让它用计算器算 &quot;3 乘 5&quot;，它可能写成 &quot;3 加 5&quot;，或者把格式搞错（比如本该写 JSON 格式却写错符号）。这些错误需要我们来介入，并做额外的检查和修正。                                                                                                                                                                      |<br>|                                                                                                                                                                                                                                                                                                                                           |<br>| 多步骤任务又慢又”expensive”                                                                                                                                                                                                                                                                                                               |<br>|                                                                                                                                                                                                                                                                                                                                           |<br>| 每次call function都要走流程：AI 先输出指令→程序执行function→把结果返回给 AI，一来一回需要时间。如果一个任务需要走10 步function callin，就需要来回沟通 10 次，不仅速度会变慢，每次沟通都要消耗tokens，成本也会变高。                                                                                                                       |<br>|                                                                                                                                                                                                                                                                                                                                           |<br>| 不会自己发现new function                                                                                                                                                                                                                                                                                                                  |<br>|                                                                                                                                                                                                                                                                                                                                           |<br>| LLM只能用当前对话中提前告诉它的function，就像一个只会按菜单点菜的服务员，菜单上没有的菜就不会做。如果外部有新function上线，必须手动更新它的 &quot;function list&quot;，它自己不会主动发现和学习新能力，灵活性很差。                                                                                                                               |<br>+——————————————————————————————————————————————————————————————————————————————————————————————————————————————-+</p>
+<p>总体来说，function calling让 AI 更能干，但也像个 &quot;死板的工具人&quot;：只能用固定工具、功能多了会乱、容易出错、做复杂事又慢又贵，还不会自己学新东西</p>
+<p>那MCP可以做到上述几点吗？我们可以把 <strong>MCP</strong> 想象成一个”智能升级”的AI助手，它针对function calling的痛点，做了实实在在的改进：</p>
+<p>+————————————————————————————————————————————————————————————————+<br>| MCP允许AI在运行时通过tools&#x2F;list接口查询服务器支持的工具列表，无需提前硬编码所有函数。例如，新增”文件删除”功能时，AI可自动发现并使用，无需人工更新提示。                                        |<br>|                                                                                                                                                                                                |<br>| 工具只需实现一次MCP server，即可被所有兼容AI client调用（如Claude、IDE插件），避免为不同LLM重复开发函数，解决”M×N集成问题”。                                                                   |<br>|                                                                                                                                                                                                |<br>| MCP server返回的工具列表包含输入模式（如参数类型、格式），AI可根据结构化信息生成更准确的调用指令，减少参数错误，并且client可在执行前验证工具调用格式（如JSON正确性），部分错误可在协议层拦截。 |<br>|                                                                                                                                                                                                |<br>| <strong>MCP支持原生动态发现，这也是本质上的区别。</strong>AI可通过protocol主动查询server，实时感知工具增减或升级。例如，server新增”图像生成”功能后，AI无需人工干预即可使用。                                |<br>+————————————————————————————————————————————————————————————————+</p>
+<hr>
+<p>  <strong>维度</strong>                Function Calling局限           MCP的改进点</p>
+<p>  <strong>灵活性</strong>              固定函数限制，难处理复杂流程   动态工具发现+自主多步规划</p>
+<p>  <strong>可扩展性</strong>            函数数量多导致上下文爆炸       标准化协议+按需数据加载</p>
+<p>  <strong>动态适应性</strong>          无法感知新工具，需人工更新     runtime工具查询+自动协议适配</p>
+<p>  <strong>错误处理</strong>            依赖人工校验参数和格式         结构化工具描述+协议层校验</p>
+<hr>
+<p><strong>Make your hands dirty</strong></p>
+<p><strong>构建你的第一个空间透镜</strong></p>
+<p>让我们在实践中快速上手MCP</p>
+<hr>
+<p>  如果你想要完整的了解MCP，请移步：<a target="_blank" rel="noopener" href="https://modelcontextprotocol.io/introduction%EF%BC%8C%E8%BF%99%E9%87%8C%E5%8F%AA%E5%81%9A%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97%EF%BC%8C%E6%97%A8%E5%9C%A8%E8%AE%A9%E7%94%A8%E6%88%B7%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E8%87%AA%E5%B7%B1%E7%9A%84MCP">https://modelcontextprotocol.io/introduction，这里只做快速上手指南，旨在让用户快速搭建一个自己的MCP</a> service</p>
+<hr>
+<p>首先介绍一下MCP server端为我们提供的3种原语：</p>
+<hr>
+<p>  原语            控制方             描述</p>
+<p>  Prompts         用户控制           由用户选择调用的交互式模板</p>
+<p>  Resources       应用控制           由客户端附加并管理的上下文数据</p>
+<p>  Tools           模型控制           暴露给 LLM 以便其执行操作的功能接口</p>
+<hr>
+<p>这里我们用到了Tools</p>
+<hr>
+<p>  code skeleton：</p>
+<hr>
+<hr>
+<p>  python<br>  code skeleton<br>  import os<br>  from MCP.server.fastMCP import FastMCP<br>  <br>  # 创建一个MCP服务器实例<br>  MCP &#x3D; FastMCP(&quot;StorageAnalyzer&quot;)<br>  <br>  # @MCP.tool() decorator将这个函数注册为MCP工具<br>  @MCP.tool()<br>  def get_storage_usage(path: str &#x3D; &#39;.&#39;) -&gt; dict:<br>  return analyze_storage(path)<br>  <br>  # 启动MCP服务器<br>  if __name__ &#x3D;&#x3D; &quot;__main__&quot;:<br>  MCP.run()</p>
+<hr>
+<p>完整代码如下：</p>
+<hr>
+<p>  python<br>  server.py<br>  import os<br>  from mcp.server.fastmcp import FastMCP<br>  <br>  def analyze_storage(path: str) -&gt; dict:<br>  if not os.path.exists(path):<br>  raise ValueError(f&quot;Path not found: {path}&quot;)<br>  if not os.path.isdir(path):<br>  raise NotADirectoryError(f&quot;Not a dir: {path}&quot;)<br>  storage_data &#x3D; {}<br>  file_type_stats &#x3D; {}<br>  for root, dirs, files in os.walk(path):<br>  dir_size &#x3D; 0<br>  for file in files:<br>  file_path &#x3D; os.path.join(root, file)<br>  try:<br>  file_size &#x3D; os.path.getsize(file_path)<br>  dir_size +&#x3D; file_size<br>  storage_data[file_path] &#x3D; file_size<br>  EXT_MAPPING &#x3D; {<br>  &#39;.jpeg&#39;: &#39;.jpg&#39;,<br>  &#39;.htm&#39;: &#39;.html&#39;,<br>  &#39;.tiff&#39;: &#39;.tif&#39;<br>  }<br>  ext &#x3D; os.path.splitext(file)[1].lower() or &#39;no_ext&#39;<br>  ext &#x3D; EXT_MAPPING.get(ext, ext)<br>  if ext not in file_type_stats:<br>  file_type_stats[ext] &#x3D; 0<br>  file_type_stats[ext] +&#x3D; file_size<br>  except PermissionError:<br>  storage_data[file_path] &#x3D; &#39;Permission denied&#39;<br>  storage_data[root] &#x3D; dir_size<br>  file_type_human &#x3D; {}<br>  for ext, size in file_type_stats.items():<br>  if size &gt;&#x3D; 1e9:<br>  file_type_human[ext] &#x3D; f&#39;{size&#x2F;1e9:.2f} GB&#39;<br>  elif size &gt;&#x3D; 1e6:<br>  file_type_human[ext] &#x3D; f&#39;{size&#x2F;1e6:.2f} MB&#39;<br>  elif size &gt;&#x3D; 1e3:<br>  file_type_human[ext] &#x3D; f&#39;{size&#x2F;1e3:.2f} KB&#39;<br>  else:<br>  file_type_human[ext] &#x3D; f&#39;{size} B&#39;<br>  storage_data[&#39;file_type_stats&#39;] &#x3D; {<br>  &#39;raw_bytes&#39;: file_type_stats,<br>  &#39;human_readable&#39;: file_type_human<br>  }<br>  <br>  storage_data[&#39;large_files&#39;] &#x3D; []<br>  LARGE_FILE_THRESHOLD &#x3D; 100 * 1024 * 1024<br>  for file_path, size in storage_data.items():<br>  if isinstance(size, int) and size &gt; LARGE_FILE_THRESHOLD and not os.path.isdir(file_path):<br>  storage_data[&#39;large_files&#39;].append({<br>  &#39;path&#39;: file_path,<br>  &#39;size_bytes&#39;: size,<br>  &#39;size_human&#39;: f&#39;{size&#x2F;1e9:.2f} GB&#39; if size &gt;&#x3D; 1e9 else f&#39;{size&#x2F;1e6:.2f} MB&#39;<br>  })<br>  return storage_data<br>  <br>  mcp &#x3D; FastMCP(&quot;StorageAnalyzer&quot;)<br>  <br>  @mcp.tool()<br>  def get_storage_usage(path: str &#x3D; &#39;.&#39;) -&gt; dict:<br>  return analyze_storage(path)<br>  <br>  if __name__ &#x3D;&#x3D; &#39;__main__&#39;:<br>  mcp.run()</p>
+<hr>
+<p>你可以在当前工作区新建一个server.py，将上面的代码copy进去。</p>
+<p>代码编写好后，在 Trae 里选择&quot;设置&quot;,再选择 MCP,点击添加</p>
+<p><img src="/media_2/image3.png">{width&#x3D;”5.75in” height&#x3D;”1.4166666666666667in”}</p>
+<p>点击手动配置</p>
+<p><img src="/media_2/image4.png">{width&#x3D;”5.75in” height&#x3D;”1.2708333333333333in”}</p>
+<p>在这里配置我们的空间透镜</p>
+<p><img src="/media_2/image5.png">{width&#x3D;”5.75in” height&#x3D;”2.53125in”}</p>
+<p>参考如下：</p>
+<hr>
+<p>  json<br>  {<br>  &quot;mcpServers&quot;: {<br>  &quot;spacelens&quot;: {<br>  &quot;command&quot;: &quot;python&quot;,<br>  &quot;args&quot;: [<br>  &quot;$YOUR_SERVER_PATH&quot; &#x2F;&#x2F; 你的server文件位置<br>  ]<br>  }<br>  }<br>  }</p>
+<hr>
+<p>配置好后，返回MCP页面，点击这里就可以添加我们的agent with space_lens：</p>
+<p><img src="/media_2/image6.png">{width&#x3D;”5.75in” height&#x3D;”1.7916666666666667in”}</p>
+<p>效果如图：</p>
+<p><img src="/media_2/image7.png">{width&#x3D;”5.75in” height&#x3D;”2.8020833333333335in”}</p>
+<p>Have fun！</p>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2025/07/15/Reinforcement_Learning_CookBook/">Reinforcement_Learning_CookBook</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="slogan">
+        <span>Home,sweet home<a href="" target="_blank"></a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
